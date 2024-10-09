@@ -20,7 +20,7 @@ public class RecommendationService {
     @Autowired
     UserService userService;
 
-    public ArrayList<EventInfoDTO> pair(Long userId) throws Exception {
+    public ArrayList<EventInfoDTO> pair(Long userId) {
         ArrayList<Event> domainEvents = new ArrayList<>();
         ArrayList<EventInfoDTO> eventsDTO = new ArrayList<>();
         User user = UserMapper.INSTANCE.toDomainUser(userService.getUser(userId));
@@ -38,7 +38,7 @@ public class RecommendationService {
         return eventsDTO;
     }
 
-    public void recommendEvent(Long eventId) throws Exception {
+    public void recommendEvent(Long eventId){
         Event event = EventMapper.INSTANCE.toDomainEvent(eventService.getEvent(eventId));
         ArrayList<User> users = new ArrayList<>();
 

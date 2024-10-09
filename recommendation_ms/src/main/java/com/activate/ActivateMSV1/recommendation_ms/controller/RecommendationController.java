@@ -3,6 +3,7 @@ package com.activate.ActivateMSV1.recommendation_ms.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.EventInfoDTO;
@@ -19,13 +20,9 @@ public class RecommendationController {
     RecommendationService recommendationService;
 
     @GetMapping("/pair/{userId}")
-    public ResponseEntity<?> pair(Long userId) {
+    public ResponseEntity<?> pair(@PathVariable Long userId) {
         ArrayList<EventInfoDTO> pairedEvents;
-        try{
-            pairedEvents = recommendationService.pair(userId);
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.toString());
-        }
+        pairedEvents = recommendationService.pair(userId);
 
         if(pairedEvents == null){
             return ResponseEntity.notFound().build();
@@ -41,13 +38,9 @@ public class RecommendationController {
     }*/
 
     @GetMapping("/{userId}")
-    public ResponseEntity<ArrayList<EventInfoDTO>> getRecommendations(Long userId) {
+    public ResponseEntity<ArrayList<EventInfoDTO>> getRecommendations(@PathVariable Long userId) {
         ArrayList<EventInfoDTO> recommendations;
-        try{
-            recommendations = recommendationService.getRecommendations(userId);
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+        recommendations = recommendationService.getRecommendations(userId);
 
         if(recommendations == null){
             return ResponseEntity.notFound().build();

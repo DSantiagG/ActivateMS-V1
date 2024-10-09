@@ -1,5 +1,6 @@
 package com.activate.ActivateMSV1.recommendation_ms.domain;
 
+import com.activate.ActivateMSV1.recommendation_ms.infra.exceptions.DomainException;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class Recommendation {
             }
         }
         if(events.isEmpty())
-            throw new RuntimeException("There are no events available for the user");
+            throw new DomainException("There are no events available for the user");
 
         if(pairings.containsKey(user.getId()))
             pairings.replace(user.getId(), events);
@@ -55,13 +56,13 @@ public class Recommendation {
     }
 
     private boolean isClose(Location A, Location B) {
-        int distancia = (int) Math.sqrt(Math.pow(A.getLatitude() - B.getLatitude(), 2) + Math.pow(A.getLongitude() - B.getLongitude(), 2));
-        return distancia <= PROXIMITY_THRESHOLD;
+        int distance = (int) Math.sqrt(Math.pow(A.getLatitude() - B.getLatitude(), 2) + Math.pow(A.getLongitude() - B.getLongitude(), 2));
+        return distance <= PROXIMITY_THRESHOLD;
     }
 
     public ArrayList<Event> getRecommendations(Long userId) {
         if(!pairings.containsKey(userId))
-            throw new RuntimeException("There are no recommendations for the user");
+            throw new DomainException("There are no recommendations for the user");
         return pairings.get(userId);
     }
 }
