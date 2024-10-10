@@ -1,4 +1,4 @@
-package com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.user_services;
+package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Interest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Location;
@@ -31,7 +31,7 @@ public class UserAdapter {
         return userMapped;
     }
 
-    public User mapUserToDomain (com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User user) throws Exception {
+    public User mapUserToDomain (com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User user) {
         HashSet<Interest> interestsMapped = new HashSet<>();
         for (com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.Interest interestMapped : user.getInterests()) {
             interestsMapped.add(Interest.valueOf(interestMapped.toString()));

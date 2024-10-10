@@ -26,7 +26,7 @@ public class Evaluation {
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
     @ToString.Exclude
-    private EventCommand event;
+    private Event event;
 
     @PrePersist
     public void prePersist() {

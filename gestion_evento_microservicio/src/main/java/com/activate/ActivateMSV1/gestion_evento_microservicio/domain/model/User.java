@@ -13,7 +13,7 @@ public class User {
     private HashSet<Interest> interests;
     private Location location;
 
-    public User(Long id, String name, int age, String email, HashSet<Interest> interests, Location location) throws Exception {
+    public User(Long id, String name, int age, String email, HashSet<Interest> interests, Location location) {
         this.id = id;
         this.name = name;
         this.age = age;

@@ -9,9 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class GestionEventoMicroservicioApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(GestionEventoMicroservicioApplication.class, args);
-
 	}
 
 }

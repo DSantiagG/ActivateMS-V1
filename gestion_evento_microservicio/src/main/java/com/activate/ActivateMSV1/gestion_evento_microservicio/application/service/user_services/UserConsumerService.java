@@ -2,6 +2,7 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.application.servi
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.config.RabbitMQConfig;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers.UserAdapter;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;

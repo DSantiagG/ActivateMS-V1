@@ -1,6 +1,6 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.sync;
 
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.EventCommand;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository.EventCommandRepository;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.*;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User;
@@ -39,8 +39,8 @@ public class EventSyncService {
     }
 
     private void updateEvent() {
-        List<EventCommand> modifiedEvents = getEventsToSync();
-        for(EventCommand event: modifiedEvents) {
+        List<Event> modifiedEvents = getEventsToSync();
+        for(Event event: modifiedEvents) {
             Query query = new Query(Criteria.where("id").is(event.getId().toString()));
             Update update = new Update();
 
@@ -57,12 +57,12 @@ public class EventSyncService {
             update.set("participants", getParticipants(event.getParticipants()));
             update.set("evaluations", getEvaluations(event.getEvaluations()));
 
-            mongoOps.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true).upsert(true), Event.class);
+            mongoOps.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true).upsert(true), com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Event.class);
             System.out.println("Event " + event.getId().toString() + " updated");
         }
     }
 
-    private List<EventCommand> getEventsToSync() {
+    private List<Event> getEventsToSync() {
         return eventCommandRepository.findAllByLastModifiedDateAfter(lastSyncDate);
     }
 

@@ -1,8 +1,9 @@
-package com.activate.ActivateMSV1.gestion_evento_microservicio.application.service;
+package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.user_services.UserService;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.*;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.EventCommand;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.NotFoundException;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Participant;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository.EventCommandRepository;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.repository.EventQueryRepository;
@@ -30,9 +31,9 @@ public class EventAdapter {
     UserRepository userRepository;
 
     @Transactional
-    public EventCommand mapEventToInfrastructure(Event event) {
-        EventCommand eventMapped = eventCommandRepository.findById(event.getId())
-                .orElse(new EventCommand());
+    public Event mapEventToInfrastructure(com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event event) {
+        Event eventMapped = eventCommandRepository.findById(event.getId())
+                .orElse(new Event());
 
         eventMapped.setMaxCapacity(event.getMaxCapacity());
         eventMapped.setDuration(event.getDuration());
@@ -62,27 +63,27 @@ public class EventAdapter {
         return eventMapped;
     }
 
-    private void mapParticipantsToInfrastructure(ArrayList<com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Participant> participants, EventCommand eventCommand) {
+    private void mapParticipantsToInfrastructure(ArrayList<com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Participant> participants, Event event) {
         for (com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Participant participant : participants) {
-            if (eventCommand.getParticipants().stream().noneMatch(p -> p.getUser().getId().equals(participant.getUser().getId()))) {
-                User userParticipant = userRepository.findById(participant.getUser().getId()).orElseThrow(() -> new RuntimeException("User not found"));
+            if (event.getParticipants().stream().noneMatch(p -> p.getUser().getId().equals(participant.getUser().getId()))) {
+                User userParticipant = userRepository.findById(participant.getUser().getId()).orElseThrow(() -> new NotFoundException("User not found"));
                 Participant p = new Participant();
                 p.setUser(userParticipant);
-                p.setEvent(eventCommand);
-                eventCommand.getParticipants().add(p);
+                p.setEvent(event);
+                event.getParticipants().add(p);
             }
         }
     }
 
-    private void mapEvaluationToInfrastructure(ArrayList<Evaluation> evaluations, EventCommand eventCommand) {
+    private void mapEvaluationToInfrastructure(ArrayList<Evaluation> evaluations, Event event) {
         for (Evaluation evaluation : evaluations) {
             com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation e =
-                    new com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation(null, evaluation.getComment(), evaluation.getScore(), evaluation.getAuthor().getUser().getId(), eventCommand);
-            eventCommand.getEvaluations().add(e);
+                    new com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation(null, evaluation.getComment(), evaluation.getScore(), evaluation.getAuthor().getUser().getId(), event);
+            event.getEvaluations().add(e);
         }
     }
 
-    public Event mapEventToDomain(com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Event event) throws Exception {
+    public com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event mapEventToDomain(com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Event event) {
         com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User userOrganizer = userService.getUser(event.getOrganizer().getId());
         Organizer organizer = new Organizer(userOrganizer);
 
@@ -90,7 +91,7 @@ public class EventAdapter {
         for (com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Interest interest : event.getInterests()) {
             interests.add(Interest.valueOf(interest.toString()));
         }
-        Event e = new Event(Long.parseLong(event.getId()), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(),
+        com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event e = new com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event(Long.parseLong(event.getId()), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(),
                 event.getDate(), new Location(event.getLocation().getLatitude(), event.getLocation().getLongitude()),
                 State.valueOf(event.getState().toString()),
                 EventType.valueOf(event.getType().toString()), organizer, interests);
@@ -99,7 +100,7 @@ public class EventAdapter {
         return e;
     }
 
-    private ArrayList<com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Participant> mapParticipantsToDomain(List<com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Participant> participants) throws Exception {
+    private ArrayList<com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Participant> mapParticipantsToDomain(List<com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Participant> participants) {
         ArrayList<com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Participant> participantsMapped = new ArrayList<>();
         for (com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Participant participant : participants) {
             com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User userParticipant = userService.getUser(participant.getUserId());
@@ -108,7 +109,7 @@ public class EventAdapter {
         return participantsMapped;
     }
 
-    private ArrayList<Evaluation> mapEvaluationToDomain(List<com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Evaluation> evaluations) throws Exception {
+    private ArrayList<Evaluation> mapEvaluationToDomain(List<com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Evaluation> evaluations) {
         ArrayList<Evaluation> evaluationsMapped = new ArrayList<>();
         for (com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Evaluation evaluation : evaluations) {
             com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User userAuthor = userService.getUser(evaluation.getAuthorId());
@@ -119,7 +120,7 @@ public class EventAdapter {
         return evaluationsMapped;
     }
 
-    public Event mapEventCommandToDomain(EventCommand event) throws Exception {
+    public com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event mapEventCommandToDomain(Event event) {
         com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User userOrganizer = userService.getUser(event.getOrganizer());
         Organizer organizer = new Organizer(userOrganizer);
 
@@ -128,9 +129,13 @@ public class EventAdapter {
             interests.add(Interest.valueOf(interest.toString()));
         }
 
-        return new Event(event.getId(), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(),
+        return new com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event(event.getId(), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(),
                 event.getDate(), new Location(event.getLocation().getLatitude(), event.getLocation().getLongitude()),
                 State.valueOf(event.getState().toString()),
                 EventType.valueOf(event.getType().toString()), organizer, interests);
+    }
+
+    public EventInfo mapEventToEventInfo(com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event event){
+        return new EventInfo(event.getId(), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(), event.getDate(), event.getLocation(), event.getState(), event.getType(), event.getOrganizerName(), event.getInterests());
     }
 }

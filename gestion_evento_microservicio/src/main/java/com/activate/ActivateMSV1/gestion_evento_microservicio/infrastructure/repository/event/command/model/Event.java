@@ -13,7 +13,7 @@ import java.util.*;
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventCommand {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
