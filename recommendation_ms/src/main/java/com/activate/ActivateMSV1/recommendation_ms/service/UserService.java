@@ -13,14 +13,12 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getUser(Long id) {
-        return userRepository.findById(id.toString()).orElse(null);
+        User user = userRepository.findById(id.toString()).orElse(null);
+        return user;
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
 }

@@ -23,6 +23,7 @@ public class RecommendationService {
     public ArrayList<EventInfoDTO> pair(Long userId) {
         ArrayList<Event> domainEvents = new ArrayList<>();
         ArrayList<EventInfoDTO> eventsDTO = new ArrayList<>();
+
         User user = UserMapper.INSTANCE.toDomainUser(userService.getUser(userId));
 
         eventService.getEvents()

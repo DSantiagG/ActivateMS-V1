@@ -11,7 +11,7 @@ import java.util.HashSet;
 @Data
 public class Event {
     @Id
-    private Long id;
+    private String id;
     private int maxCapacity;
     private int duration; // In minutes
     private String name;
