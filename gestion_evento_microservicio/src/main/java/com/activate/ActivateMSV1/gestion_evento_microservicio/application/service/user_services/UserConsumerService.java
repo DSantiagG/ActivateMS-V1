@@ -2,6 +2,7 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.application.servi
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.config.RabbitMQConfig;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.UserDTO;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers.UserAdapter;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -18,8 +19,8 @@ public class UserConsumerService {
     UserAdapter userAdapter;
 
     @RabbitListener(queues = RabbitMQConfig.USER_QUEUE)
-    public void receiveMessage(User user){
-        com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User userMapped = userAdapter.mapUserToInfrastructure(user);
+    public void receiveMessage(UserDTO user){
+        com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User userMapped = userAdapter.mapUserDTOToInfrastructure(user);
         userRepository.save(userMapped);
     }
 }

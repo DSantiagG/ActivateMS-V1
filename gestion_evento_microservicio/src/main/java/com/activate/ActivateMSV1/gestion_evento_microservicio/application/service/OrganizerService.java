@@ -1,5 +1,7 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.application.service;
 
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.config.RabbitMQConfig;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.EventInfoDTO;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.DomainException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.NotFoundException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers.UserAdapter;
@@ -9,6 +11,7 @@ import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.rep
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository.EventCommandRepository;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +33,8 @@ public class OrganizerService {
     UserRepository userRepository;
     @Autowired
     UserAdapter userAdapter;
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     public void createEvent(int maxCapacity, int duration, String name, String description, LocalDateTime date, Location location, EventType type, Long organizerId, HashSet<Interest> interests) {
         User userOrganizer = userRepository.findById(organizerId).orElseThrow(() -> new NotFoundException("Organizer not found"));
@@ -41,6 +46,9 @@ public class OrganizerService {
 
         Event eventMapped = eventAdapter.mapEventToInfrastructure(event);
         eventCommandRepository.save(eventMapped);
+
+        EventInfoDTO eventMappedDTO = eventAdapter.mapEventToEventInfoDTO(event);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EVENT_QUEUE, eventMappedDTO);
     }
 
     @Transactional

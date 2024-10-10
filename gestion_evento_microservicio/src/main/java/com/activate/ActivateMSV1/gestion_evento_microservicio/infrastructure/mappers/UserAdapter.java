@@ -3,6 +3,8 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.ma
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Interest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Location;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.InterestDTO;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.UserDTO;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,5 +39,14 @@ public class UserAdapter {
             interestsMapped.add(Interest.valueOf(interestMapped.toString()));
         }
         return new User(user.getId(), user.getName(), user.getAge(), user.getEmail(), interestsMapped, new Location(user.getLocation().getLatitude(), user.getLocation().getLongitude()));
+    }
+
+    public com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User mapUserDTOToInfrastructure(UserDTO user){
+        HashSet<Interest> interests = new HashSet<>();
+        for (InterestDTO interestDTO : user.getInterests()) {
+            interests.add(Interest.valueOf(interestDTO.name()));
+        }
+        User domainUser = new User(user.getId(), user.getName(), user.getAge(), user.getEmail(), interests, new Location(user.getLocation().getLatitude(), user.getLocation().getLongitude()));
+        return mapUserToInfrastructure(domainUser);
     }
 }

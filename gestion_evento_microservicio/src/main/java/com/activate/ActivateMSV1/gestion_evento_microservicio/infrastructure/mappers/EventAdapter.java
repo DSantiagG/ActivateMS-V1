@@ -2,6 +2,7 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.ma
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.user_services.UserService;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.*;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.*;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.NotFoundException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Participant;
@@ -137,5 +138,15 @@ public class EventAdapter {
 
     public EventInfo mapEventToEventInfo(com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event event){
         return new EventInfo(event.getId(), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(), event.getDate(), event.getLocation(), event.getState(), event.getType(), event.getOrganizerName(), event.getInterests());
+    }
+
+    public EventInfoDTO mapEventToEventInfoDTO(com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Event domainEvent){
+        EventInfo event = mapEventToEventInfo(domainEvent);
+
+        HashSet<InterestDTO> interests = new HashSet<>();
+        for (Interest interest : event.getInterests()) {
+            interests.add(InterestDTO.valueOf(interest.name()));
+        }
+        return new EventInfoDTO(event.getId(), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(), event.getDate(), new LocationDTO(event.getLocation().getLatitude(), event.getLocation().getLongitude()), StateDTO.valueOf(event.getState().name()), EventTypeDTO.valueOf(event.getType().name()), event.getOrganizerName(), interests);
     }
 }
