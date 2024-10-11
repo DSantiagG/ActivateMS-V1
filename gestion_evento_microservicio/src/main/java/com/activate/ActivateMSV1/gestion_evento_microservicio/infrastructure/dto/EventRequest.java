@@ -2,12 +2,14 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dt
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Interest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.EventType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Data
+@AllArgsConstructor
 public class EventRequest {
     private int maxCapacity;
     private int duration;

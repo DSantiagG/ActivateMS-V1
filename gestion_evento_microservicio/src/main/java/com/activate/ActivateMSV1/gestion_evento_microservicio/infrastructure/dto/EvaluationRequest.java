@@ -1,8 +1,10 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class EvaluationRequest {
     private String comment;
     private int score;

@@ -32,4 +32,8 @@ public class EventInfo {
         this.organizerName = organizerName;
         this.interests = interests;
     }
+
+    public EventInfo() {
+
+    }
 }

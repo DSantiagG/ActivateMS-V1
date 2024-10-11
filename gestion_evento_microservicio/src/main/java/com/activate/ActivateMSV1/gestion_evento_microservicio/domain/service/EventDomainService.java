@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class EventDomainService {
 
-    @Autowired
-    EventAdapter eventAdapter;
+
 
     public boolean addParticipant(Event event, Participant participant){
-        EventInfo e = eventAdapter.mapEventToEventInfo(event);
+        EventInfo e = mapEventToEventInfo(event);
         if(!participant.isAvailable(e))
             throw new DomainException("The participant is already registered in an event at the same date and time: "+e.getDate().toString());
         if (event.addParticipant(participant)){
@@ -23,5 +22,9 @@ public class EventDomainService {
             return true;
         }
         return false;
+    }
+
+    private EventInfo mapEventToEventInfo(Event event){
+        return new EventInfo(event.getId(), event.getMaxCapacity(), event.getDuration(), event.getName(), event.getDescription(), event.getDate(), event.getLocation(), event.getState(), event.getType(), event.getOrganizerName(), event.getInterests());
     }
 }
