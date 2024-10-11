@@ -12,8 +12,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +47,7 @@ class EventConsumerServiceTest {
         eventConsumerService.receiveMessage(eventInfoDTO);
 
         verify(eventRepository, times(1)).save(any());
-        verify(recommendationService, never()).recommendEvent(anyLong());
+        verify(recommendationService, never()).recommendUsersToEvent(anyLong());
     }
 
     @Test
@@ -60,12 +60,15 @@ class EventConsumerServiceTest {
         userDTO.setName("John Doe");
 
         eventInfoDTO.setId(1L);
+        eventInfoDTO.setName("Tech Conference");
+        eventInfoDTO.setDate(LocalDateTime.now());
+
         when(eventRepository.findById("1")).thenReturn(Optional.empty());
-        when(recommendationService.recommendEvent(1L)).thenReturn(new ArrayList<>(List.of(userDTO)));
+        when(recommendationService.recommendUsersToEvent(1L)).thenReturn(new ArrayList<>(List.of(userDTO)));
         eventConsumerService.receiveMessage(eventInfoDTO);
 
         verify(eventRepository, times(1)).save(any());
-        verify(recommendationService, times(1)).recommendEvent(1L);
+        verify(recommendationService, times(1)).recommendUsersToEvent(1L);
         verify(rabbitTemplate, times(1)).convertAndSend(eq("notificationQueue"), any(NotificationDTO.class));
     }
 }

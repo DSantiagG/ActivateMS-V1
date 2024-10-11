@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -59,7 +58,7 @@ class RecommendationServiceTest {
         when(userService.getUser(1L)).thenReturn(null);
 
         ServiceValidationException exception = assertThrows(ServiceValidationException.class, () -> {
-            recommendationService.pair(1L);
+            recommendationService.recommendateEventsToUser(1L);
         });
 
         assertEquals("User not found", exception.getMessage());
@@ -73,7 +72,7 @@ class RecommendationServiceTest {
         when(userService.getUser(1L)).thenReturn(UserMapper.INSTANCE.toRepoModelUser(user));
         when(eventService.getEvents()).thenReturn(Collections.singletonList(EventMapper.INSTANCE.toRepoModelEvent(event)));
 
-        List<EventInfoDTO> result = recommendationService.pair(1L);
+        List<EventInfoDTO> result = recommendationService.recommendateEventsToUser(1L);
 
         assertNotNull(result);
         assertFalse(result.isEmpty());
@@ -89,39 +88,11 @@ class RecommendationServiceTest {
         when(userService.getAllUsers()).thenReturn(Collections.singletonList(UserMapper.INSTANCE.toRepoModelUser(user)));
         when(eventService.getEvent(1L)).thenReturn(EventMapper.INSTANCE.toRepoModelEvent(event));
 
-        List<UserDTO> result = recommendationService.recommendEvent(1L);
+        List<UserDTO> result = recommendationService.recommendUsersToEvent(1L);
 
         assertNotNull(result);
         assertEquals(user.getId(), result.get(0).getId());
         verify(eventService, times(1)).getEvent(1L);
         verify(userService, times(1)).getAllUsers();
-    }
-
-    @Test
-    void testGetRecommendations_UserNotFound() {
-        when(userService.getUser(1L)).thenReturn(null);
-
-        ServiceValidationException exception = assertThrows(ServiceValidationException.class, () -> {
-            recommendationService.getRecommendations(1L);
-        });
-
-        assertEquals("User not found", exception.getMessage());
-    }
-
-    @Test
-    void testGetRecommendations_Success() {
-        user.getInterests().add(Interest.MUSIC);
-        event.getInterests().add(Interest.MUSIC);
-
-        when(userService.getUser(1L)).thenReturn(UserMapper.INSTANCE.toRepoModelUser(user));
-        when(eventService.getEvents()).thenReturn(Collections.singletonList(EventMapper.INSTANCE.toRepoModelEvent(event)));
-
-        recommendationService.pair(1L);
-        List<EventInfoDTO> result = recommendationService.getRecommendations(1L);
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(event.getName(), result.get(0).getName());
-        verify(userService, times(2)).getUser(1L);
     }
 }

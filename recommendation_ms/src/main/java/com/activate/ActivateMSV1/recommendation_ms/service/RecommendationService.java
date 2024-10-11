@@ -21,7 +21,7 @@ public class RecommendationService {
     UserService userService;
     Recommendation recommendationDomain = new Recommendation();
 
-    public ArrayList<EventInfoDTO> pair(Long userId) {
+    public ArrayList<EventInfoDTO> recommendateEventsToUser(Long userId) {
         ArrayList<Event> domainEvents = new ArrayList<>();
         ArrayList<EventInfoDTO> eventsDTO = new ArrayList<>();
 
@@ -36,15 +36,15 @@ public class RecommendationService {
                         event -> domainEvents.add(EventMapper.INSTANCE.toDomainEvent(event))
                 );
 
-        recommendationDomain.pairUserToEvents(user, domainEvents);
-        recommendationDomain.getRecommendations(userId).forEach(
-                event -> eventsDTO.add(EventMapper.INSTANCE.toEventInfoDTO(event))
-        );
+        recommendationDomain.recommendateEventsToUser(user, domainEvents)
+                .forEach(
+                    event -> eventsDTO.add(EventMapper.INSTANCE.toEventInfoDTO(event))
+                );
 
         return eventsDTO;
     }
 
-    public ArrayList<UserDTO> recommendEvent(Long eventId){
+    public ArrayList<UserDTO> recommendUsersToEvent(Long eventId){
         Event event = EventMapper.INSTANCE.toDomainEvent(eventService.getEvent(eventId));
         ArrayList<User> users = new ArrayList<>();
         ArrayList<UserDTO> usersRecommended = new ArrayList<>();
@@ -54,26 +54,11 @@ public class RecommendationService {
                         user -> users.add(UserMapper.INSTANCE.toDomainUser(user))
                 );
 
-        recommendationDomain.recommendEventToUsers(event, users)
+        recommendationDomain.recommendUsersToEvent(event, users)
                 .forEach(
                         user -> usersRecommended.add(UserMapper.INSTANCE.toUserDTO(user))
                 );
 
         return usersRecommended;
     }
-
-    public ArrayList<EventInfoDTO> getRecommendations(Long userId) {
-        ArrayList<EventInfoDTO> eventsRecommendations = new ArrayList<>();
-
-        if(userService.getUser(userId) == null) {
-            throw new ServiceValidationException("User not found");
-        }
-
-        recommendationDomain.getRecommendations(userId).forEach(
-                event -> eventsRecommendations.add(EventMapper.INSTANCE.toEventInfoDTO(event))
-        );
-
-        return eventsRecommendations;
-    }
-
 }

@@ -1,6 +1,5 @@
 package com.activate.ActivateMSV1.recommendation_ms.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,28 +18,16 @@ public class RecommendationController {
     @Autowired
     RecommendationService recommendationService;
 
-    @GetMapping("/pair/{userId}")
-    public ResponseEntity<?> pair(@PathVariable Long userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> recommendateEventsToUser(@PathVariable Long userId) {
         ArrayList<EventInfoDTO> pairedEvents;
-        pairedEvents = recommendationService.pair(userId);
+        pairedEvents = recommendationService.recommendateEventsToUser(userId);
 
         if(pairedEvents == null){
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(pairedEvents);
-    }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<ArrayList<EventInfoDTO>> getRecommendations(@PathVariable Long userId) {
-        ArrayList<EventInfoDTO> recommendations;
-        recommendations = recommendationService.getRecommendations(userId);
-
-        if(recommendations == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(recommendations);
     }
 
 }

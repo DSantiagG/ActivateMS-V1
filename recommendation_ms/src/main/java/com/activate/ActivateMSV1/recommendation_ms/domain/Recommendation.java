@@ -1,22 +1,25 @@
 package com.activate.ActivateMSV1.recommendation_ms.domain;
 
 import com.activate.ActivateMSV1.recommendation_ms.infra.exceptions.DomainException;
-import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Recommendation {
     private static final int PROXIMITY_THRESHOLD = 50;
-    @Getter
-    private HashMap<Long, ArrayList<Event>> pairings;
 
     public Recommendation() {
-        this.pairings = new HashMap<>();
+
     }
 
-    public void pairUserToEvents(User user, ArrayList<Event> eventsAvailable) {
+    /**
+     * Recommend events to a user based on their interests and location
+     * @param user User to recommend events
+     * @param eventsAvailable List of events available
+     * @return List of events recommended to the user
+     * */
+    public ArrayList<Event> recommendateEventsToUser(User user, ArrayList<Event> eventsAvailable) {
         ArrayList<Event> events = new ArrayList<>();
+
         for (Event event : eventsAvailable) {
             boolean isClose = isClose(user.getLocation(), event.getLocation());
             for (Interest interest : user.getInterests()) {
@@ -29,13 +32,16 @@ public class Recommendation {
         if(events.isEmpty())
             throw new DomainException("There are no events available for the user");
 
-        if(pairings.containsKey(user.getId()))
-            pairings.replace(user.getId(), events);
-        else
-            pairings.put(user.getId(), events);
+        return events;
     }
 
-    public ArrayList<User> recommendEventToUsers(Event event, ArrayList<User> users) {
+    /**
+     * Recommend users to an event based on their interests and location
+     * @param event Event to recommend users
+     * @param users List of users available
+     * @return List of users recommended to the event
+     * */
+    public ArrayList<User> recommendUsersToEvent(Event event, ArrayList<User> users) {
         ArrayList<User> usersRecommended = new ArrayList<>();
         if(event.getState() != State.OPEN)
             return usersRecommended;
@@ -52,14 +58,14 @@ public class Recommendation {
         return usersRecommended;
     }
 
+    /**
+     * Check if two locations are close
+     * @param A location A
+     * @param B location B
+     * @return true if the distance between A and B is less than or equal to the proximity threshold
+     */
     private boolean isClose(Location A, Location B) {
         int distance = (int) Math.sqrt(Math.pow(A.getLatitude() - B.getLatitude(), 2) + Math.pow(A.getLongitude() - B.getLongitude(), 2));
         return distance <= PROXIMITY_THRESHOLD;
-    }
-
-    public ArrayList<Event> getRecommendations(Long userId) {
-        if(!pairings.containsKey(userId))
-            throw new DomainException("There are no recommendations for the user");
-        return pairings.get(userId);
     }
 }

@@ -5,7 +5,6 @@ import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.NotificationDTO;
 import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.UserDTO;
 import com.activate.ActivateMSV1.recommendation_ms.infra.config.RabbitMQConfig;
 import com.activate.ActivateMSV1.recommendation_ms.infra.mappers.EventMapper;
-import com.activate.ActivateMSV1.recommendation_ms.infra.mappers.UserMapper;
 import com.activate.ActivateMSV1.recommendation_ms.infra.repository.EventRepository;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -42,7 +41,7 @@ public class EventConsumerService {
 
         if(eventAlreadyExists) return;
 
-        recommendationService.recommendEvent(event.getId()).forEach(
+        recommendationService.recommendUsersToEvent(event.getId()).forEach(
                 user -> sendNotification(event, user)
         );
     }

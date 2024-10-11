@@ -28,14 +28,15 @@ class RecommendationTest {
     @Test
     void testPairUserToEvents() {
         ArrayList<Event> eventsAvailable = new ArrayList<>();
+        ArrayList<Event> eventsRecommended = new ArrayList<>();
         eventsAvailable.add(event);
         user.getInterests().add(Interest.MUSIC);
         event.getInterests().add(Interest.MUSIC);
 
-        recommendation.pairUserToEvents(user, eventsAvailable);
+        eventsRecommended = recommendation.recommendateEventsToUser(user, eventsAvailable);
 
-        assertTrue(recommendation.getPairings().containsKey(user.getId()));
-        assertEquals(1, recommendation.getPairings().get(user.getId()).size());
+        assertEquals(1, eventsRecommended.size());
+        assertEquals(event, eventsRecommended.get(0));
     }
 
     @Test
@@ -44,7 +45,7 @@ class RecommendationTest {
         eventsAvailable.add(event);
 
         DomainException exception = assertThrows(DomainException.class, () -> {
-            recommendation.pairUserToEvents(user, eventsAvailable);
+            recommendation.recommendateEventsToUser(user, eventsAvailable);
         });
 
         assertEquals("There are no events available for the user", exception.getMessage());
@@ -58,7 +59,7 @@ class RecommendationTest {
         event.getInterests().add(Interest.MUSIC);
 
         DomainException exception = assertThrows(DomainException.class, () -> {
-            recommendation.pairUserToEvents(user, eventsAvailable);
+            recommendation.recommendateEventsToUser(user, eventsAvailable);
         });
 
         assertEquals("There are no events available for the user", exception.getMessage());
@@ -75,39 +76,39 @@ class RecommendationTest {
         event.setLocation(new Location(200, 200));
 
         DomainException exception = assertThrows(DomainException.class, () -> {
-            recommendation.pairUserToEvents(user, eventsAvailable);
+            recommendation.recommendateEventsToUser(user, eventsAvailable);
         });
 
         assertEquals("There are no events available for the user", exception.getMessage());
     }
 
     @Test
-    void testRecommendEventToUsers() {
+    void testRecommendUsersToEvent() {
         ArrayList<User> users = new ArrayList<>();
         users.add(user);
         user.getInterests().add(Interest.MUSIC);
         event.getInterests().add(Interest.MUSIC);
 
-        ArrayList<User> recommendedUsers = recommendation.recommendEventToUsers(event, users);
+        ArrayList<User> recommendedUsers = recommendation.recommendUsersToEvent(event, users);
 
         assertEquals(1, recommendedUsers.size());
         assertEquals(user, recommendedUsers.get(0));
     }
 
     @Test
-    void testRecommendEventToUsers_NoMatchesForInterests() {
+    void testRecommendUsersToEvent_NoMatchesForInterests() {
         ArrayList<User> users = new ArrayList<>();
         users.add(user);
         user.getInterests().add(Interest.MUSIC);
         event.getInterests().add(Interest.LITERATURE);
 
-        ArrayList<User> recommendedUsers = recommendation.recommendEventToUsers(event, users);
+        ArrayList<User> recommendedUsers = recommendation.recommendUsersToEvent(event, users);
 
         assertEquals(0, recommendedUsers.size());
     }
 
     @Test
-    void testRecommendEventToUsers_NoMatchesForLocation() {
+    void testRecommendUsersToEvent_NoMatchesForLocation() {
         ArrayList<User> users = new ArrayList<>();
         users.add(user);
         user.getInterests().add(Interest.MUSIC);
@@ -116,32 +117,9 @@ class RecommendationTest {
         user.setLocation(new Location(100, 100));
         event.setLocation(new Location(200, 200));
 
-        ArrayList<User> recommendedUsers = recommendation.recommendEventToUsers(event, users);
+        ArrayList<User> recommendedUsers = recommendation.recommendUsersToEvent(event, users);
 
         assertEquals(0, recommendedUsers.size());
     }
 
-    @Test
-    void testGetRecommendations() {
-        ArrayList<Event> eventsAvailable = new ArrayList<>();
-        eventsAvailable.add(event);
-        user.getInterests().add(Interest.MUSIC);
-        event.getInterests().add(Interest.MUSIC);
-
-        recommendation.pairUserToEvents(user, eventsAvailable);
-
-        ArrayList<Event> recommendations = recommendation.getRecommendations(user.getId());
-
-        assertEquals(1, recommendations.size());
-        assertEquals(event, recommendations.get(0));
-    }
-
-    @Test
-    void testGetRecommendations_NoRecommendations() {
-        DomainException exception = assertThrows(DomainException.class, () -> {
-            recommendation.getRecommendations(user.getId());
-        });
-
-        assertEquals("There are no recommendations for the user", exception.getMessage());
-    }
 }
