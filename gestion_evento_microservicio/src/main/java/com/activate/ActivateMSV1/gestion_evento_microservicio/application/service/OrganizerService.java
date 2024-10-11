@@ -34,7 +34,7 @@ public class OrganizerService {
     @Autowired
     UserAdapter userAdapter;
     @Autowired
-    RabbitTemplate rabbitTemplate;
+    EventPublisherService eventPublisherService;
 
     public void createEvent(int maxCapacity, int duration, String name, String description, LocalDateTime date, Location location, EventType type, Long organizerId, HashSet<Interest> interests) {
         User userOrganizer = userRepository.findById(organizerId).orElseThrow(() -> new NotFoundException("Organizer not found"));
@@ -47,8 +47,7 @@ public class OrganizerService {
         Event eventMapped = eventAdapter.mapEventToInfrastructure(event);
         eventCommandRepository.save(eventMapped);
 
-        EventInfoDTO eventMappedDTO = eventAdapter.mapEventToEventInfoDTO(event);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EVENT_QUEUE, eventMappedDTO);
+        eventPublisherService.publishEvent(event);
     }
 
     @Transactional
