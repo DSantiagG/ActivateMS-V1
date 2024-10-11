@@ -1,4 +1,4 @@
-package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto;
+package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

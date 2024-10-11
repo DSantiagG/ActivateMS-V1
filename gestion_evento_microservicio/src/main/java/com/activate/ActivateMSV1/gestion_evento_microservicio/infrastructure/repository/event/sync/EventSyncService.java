@@ -1,10 +1,10 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.sync;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository.EventCommandRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.EventCommandRepository;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.*;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;

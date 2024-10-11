@@ -1,15 +1,15 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers;
 
-import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.user_services.UserService;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.UserService;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.*;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.*;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.communication.*;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.NotFoundException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Participant;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository.EventCommandRepository;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.repository.EventQueryRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.EventCommandRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.EventQueryRepository;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

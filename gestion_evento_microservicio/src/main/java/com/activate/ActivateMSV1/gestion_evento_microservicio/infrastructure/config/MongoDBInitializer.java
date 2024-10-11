@@ -11,8 +11,6 @@ public class MongoDBInitializer {
     @Bean
     CommandLineRunner init(MongoTemplate mongoTemplate) {
         return args -> {
-            // Initialize data here
-            // Example: mongoTemplate.save(new User(...));
         };
     }
 }

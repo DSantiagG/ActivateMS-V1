@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.activate.ActivateMSV1.gestion_evento_microservicio.Gesti
+ onEventoMicroservicioApplication
+

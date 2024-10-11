@@ -1,17 +1,14 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.application.service;
 
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.config.RabbitMQConfig;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.EventInfoDTO;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.DomainException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.NotFoundException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers.UserAdapter;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.*;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers.EventAdapter;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository.EventCommandRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.EventCommandRepository;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +33,18 @@ public class OrganizerService {
     @Autowired
     EventPublisherService eventPublisherService;
 
+    /**
+     * Creates an event
+     * @param maxCapacity
+     * @param duration
+     * @param name
+     * @param description
+     * @param date
+     * @param location
+     * @param type
+     * @param organizerId
+     * @param interests
+     */
     public void createEvent(int maxCapacity, int duration, String name, String description, LocalDateTime date, Location location, EventType type, Long organizerId, HashSet<Interest> interests) {
         User userOrganizer = userRepository.findById(organizerId).orElseThrow(() -> new NotFoundException("Organizer not found"));
         Organizer organizer = new Organizer(userAdapter.mapUserToDomain(userOrganizer));
@@ -47,9 +56,14 @@ public class OrganizerService {
         Event eventMapped = eventAdapter.mapEventToInfrastructure(event);
         eventCommandRepository.save(eventMapped);
 
-        eventPublisherService.publishEvent(event);
+        eventPublisherService.publishEvent(event);    // Publish event
     }
 
+    /**
+     * Cancels an event
+     * @param eventId id of the event to cancel
+     * @param organizerId  id of the organizer
+     */
     @Transactional
     public void cancelEvent(Long eventId, Long organizerId) {
         User userOrganizer = userRepository.findById(organizerId).orElseThrow(() -> new NotFoundException("Organizer not found"));
@@ -67,6 +81,9 @@ public class OrganizerService {
                     organizer.getOrganizedEvents().stream()
                             .filter(event -> event.getId().equals(eventId))
                             .findFirst().orElseThrow(() -> new NotFoundException("Event not found"))));
+            eventPublisherService.publishEvent(organizer.getOrganizedEvents().stream()
+                    .filter(event -> event.getId().equals(eventId))
+                    .findFirst().orElseThrow(() -> new NotFoundException("Event not found")));
         }
     }
 }

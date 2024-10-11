@@ -1,7 +1,7 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.ui.controller;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.EventService;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.EvaluationRequest;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.request.EvaluationRequest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.EventType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -3,9 +3,9 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.ma
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Interest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Location;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.User;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.InterestDTO;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.UserDTO;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.communication.InterestDTO;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.communication.UserDTO;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

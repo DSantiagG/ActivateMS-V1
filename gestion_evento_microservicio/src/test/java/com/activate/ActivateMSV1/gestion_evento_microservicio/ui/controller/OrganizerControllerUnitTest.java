@@ -4,7 +4,7 @@ import com.activate.ActivateMSV1.gestion_evento_microservicio.application.servic
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.EventType;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Interest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Location;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.EventRequest;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.request.EventRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

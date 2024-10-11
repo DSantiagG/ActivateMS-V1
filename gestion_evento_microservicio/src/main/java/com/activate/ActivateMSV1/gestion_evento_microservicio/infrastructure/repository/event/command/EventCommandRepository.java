@@ -1,4 +1,4 @@
-package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.repository;
+package com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Event;
 import org.springframework.data.jpa.repository.Modifying;

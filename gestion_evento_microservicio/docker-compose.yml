@@ -1,0 +1,42 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ~/docker-volumes/personal/cqrs-postgres:/var/lib/postgresql
+      - ~/Desktop/tmp:/tmp
+    ports:
+      - '10001:10001' # Se conecta internamente, no se expone a la máquina local
+
+  mongodb:
+    image: mongo:5.0
+    restart: always
+    volumes:
+      - ~/docker-volumes/personal/cqrs-mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
+    ports:
+      - '10002:10002' # Se conecta internamente, no se expone a la máquina local
+
+  # Servicio del microservicio en Java
+  user-service:
+    image: user_microservice:latest
+    depends_on:
+      - postgres
+      - mongodb
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080' # Expone el servicio REST en la máquina local
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:mongo@mongodb:27017
+      - RABBITMQ_HOST=host.docker.internal # RabbitMQ corriendo localmente en tu máquina
+      - RABBITMQ_PORT=5672

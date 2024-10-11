@@ -1,13 +1,12 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.application.service;
 
-import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.user_services.UserService;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.EventInfo;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.service.EventDomainService;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.exceptions.NotFoundException;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.mappers.EventAdapter;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Participant;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.model.User;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.repository.UserRepository;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,11 @@ public class ParticipantService {
         this.eventAdapter = eventAdapter;
     }
 
+    /**
+     * Get all the events that a participant is participating in
+     * @param participantId the id of the participant
+     * @return a list of events
+     */
     public ArrayList<EventInfo> getParticipantEvents(Long participantId) {
 
         User userParticipant = userRepository.findById(participantId).orElseThrow(() -> new NotFoundException("User not found"));

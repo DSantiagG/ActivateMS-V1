@@ -2,7 +2,7 @@ package com.activate.ActivateMSV1.gestion_evento_microservicio.ui.controller;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.OrganizerService;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.domain.model.Location;
-import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.EventRequest;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.request.EventRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
