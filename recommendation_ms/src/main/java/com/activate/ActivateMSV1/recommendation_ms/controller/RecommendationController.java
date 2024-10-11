@@ -31,12 +31,6 @@ public class RecommendationController {
         return ResponseEntity.ok(pairedEvents);
     }
 
-    //TODO: Esta se debe llamar leyendo de la cola de recomendacion de eventos
-    /*
-    public void recommendEvent(Long eventId) {
-        recommendationService.recommendEvent(eventId);
-    }*/
-
     @GetMapping("/{userId}")
     public ResponseEntity<ArrayList<EventInfoDTO>> getRecommendations(@PathVariable Long userId) {
         ArrayList<EventInfoDTO> recommendations;

@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 @Service
 public class EventConsumerService {
@@ -51,10 +53,13 @@ public class EventConsumerService {
     }
     private NotificationDTO createNotification(EventInfoDTO event, UserDTO user) {
         NotificationDTO notification = new NotificationDTO();
-        String title = "¡Nuevo evento recomendado!";
-        String description = "¡Hola, " + user.getName() + "! Te recomendamos el evento " + event.getName() + " que se llevará a cabo cerca de ti el " + event.getDate() + ". ¡No te lo pierdas!";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'a las' H ': 'M", new Locale("es", "ES"));
+        String formattedDate = event.getDate().format(formatter);
 
-        notification.setUserId(1L);
+        String title = "¡Nuevo evento recomendado!";
+        String description = "¡Hola, " + user.getName() + "! Activate te recomienda el evento '" + event.getName() + "' que se llevará a cabo cerca de ti el " + formattedDate + ". ¡No te lo pierdas <3!";
+
+        notification.setUserId(user.getId());
         notification.setTitle(title);
         notification.setDescription(description);
         Date date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
