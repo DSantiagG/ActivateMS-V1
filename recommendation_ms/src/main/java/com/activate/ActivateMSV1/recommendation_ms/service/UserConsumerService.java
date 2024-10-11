@@ -16,6 +16,10 @@ public class UserConsumerService {
 
     @RabbitListener(queues = RabbitMQConfig.USER_QUEUE)
     public void receiveMessage(UserDTO user) {
+        if(user == null) {
+            return;
+        }
+
         userRepository.save(UserMapper.INSTANCE.toRepoModelUser(user));
     }
 }

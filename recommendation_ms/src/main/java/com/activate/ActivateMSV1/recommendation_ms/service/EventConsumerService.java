@@ -12,6 +12,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 @Service
 public class EventConsumerService {
     @Autowired
@@ -19,6 +23,9 @@ public class EventConsumerService {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     @RabbitListener(queues = RabbitMQConfig.EVENT_QUEUE)
     public void receiveMessage(EventInfoDTO event) {
@@ -33,12 +40,25 @@ public class EventConsumerService {
 
         if(eventAlreadyExists) return;
 
-        //TODO: Emparejarlo con los usuarios y enviarlo a notificaciones
-        NotificationDTO notification = new NotificationDTO();
-        notification.setUserId(1L);
-        notification.setMessage("Nuevo evento: " + event.getName());
+        recommendationService.recommendEvent(event.getId()).forEach(
+                user -> sendNotification(event, user)
+        );
+    }
 
-
+    private void sendNotification(EventInfoDTO event, UserDTO user) {
+        NotificationDTO notification = createNotification(event, user);
         rabbitTemplate.convertAndSend(RabbitMQConfig.NOTIFICATION_QUEUE, notification);
+    }
+    private NotificationDTO createNotification(EventInfoDTO event, UserDTO user) {
+        NotificationDTO notification = new NotificationDTO();
+        String title = "¡Nuevo evento recomendado!";
+        String description = "¡Hola, " + user.getName() + "! Te recomendamos el evento " + event.getName() + " que se llevará a cabo cerca de ti el " + event.getDate() + ". ¡No te lo pierdas!";
+
+        notification.setUserId(1L);
+        notification.setTitle(title);
+        notification.setDescription(description);
+        Date date = Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+        notification.setDate(date);
+        return notification;
     }
 }

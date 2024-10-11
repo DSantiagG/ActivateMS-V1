@@ -3,6 +3,7 @@ package com.activate.ActivateMSV1.recommendation_ms.service;
 import com.activate.ActivateMSV1.recommendation_ms.domain.Event;
 import com.activate.ActivateMSV1.recommendation_ms.domain.Recommendation;
 import com.activate.ActivateMSV1.recommendation_ms.domain.User;
+import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.UserDTO;
 import com.activate.ActivateMSV1.recommendation_ms.infra.mappers.EventMapper;
 import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.EventInfoDTO;
 import com.activate.ActivateMSV1.recommendation_ms.infra.mappers.UserMapper;
@@ -13,12 +14,11 @@ import java.util.ArrayList;
 
 @Service
 public class RecommendationService {
-
-    Recommendation recommendationDomain = new Recommendation();
     @Autowired
     EventService eventService;
     @Autowired
     UserService userService;
+    Recommendation recommendationDomain = new Recommendation();
 
     public ArrayList<EventInfoDTO> pair(Long userId) {
         ArrayList<Event> domainEvents = new ArrayList<>();
@@ -31,7 +31,7 @@ public class RecommendationService {
                         event -> domainEvents.add(EventMapper.INSTANCE.toDomainEvent(event))
                 );
 
-        recommendationDomain.pairUser(user, domainEvents);
+        recommendationDomain.pairUserToEvents(user, domainEvents);
         recommendationDomain.getRecommendations(userId).forEach(
                 event -> eventsDTO.add(EventMapper.INSTANCE.toEventInfoDTO(event))
         );
@@ -39,16 +39,17 @@ public class RecommendationService {
         return eventsDTO;
     }
 
-    public void recommendEvent(Long eventId){
+    public ArrayList<UserDTO> recommendEvent(Long eventId){
         Event event = EventMapper.INSTANCE.toDomainEvent(eventService.getEvent(eventId));
         ArrayList<User> users = new ArrayList<>();
-
+        ArrayList<UserDTO> usersRecommended = new ArrayList<>();
         userService.getAllUsers()
                 .forEach(
                         user -> users.add(UserMapper.INSTANCE.toDomainUser(user))
                 );
 
-        recommendationDomain.recommendEvent(event, users);
+        recommendationDomain.recommendEventToUsers(event, users);
+        return usersRecommended;
     }
 
     public ArrayList<EventInfoDTO> getRecommendations(Long userId) {

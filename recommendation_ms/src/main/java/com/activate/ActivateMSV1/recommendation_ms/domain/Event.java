@@ -1,11 +1,13 @@
 package com.activate.ActivateMSV1.recommendation_ms.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Data
+@AllArgsConstructor
 public class Event {
     private Long id;
     private int maxCapacity;

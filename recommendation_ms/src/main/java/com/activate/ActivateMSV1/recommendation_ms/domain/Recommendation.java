@@ -15,12 +15,12 @@ public class Recommendation {
         this.pairings = new HashMap<>();
     }
 
-    public void pairUser(User user, ArrayList<Event> eventsAvailable) {
+    public void pairUserToEvents(User user, ArrayList<Event> eventsAvailable) {
         ArrayList<Event> events = new ArrayList<>();
         for (Event event : eventsAvailable) {
             boolean isClose = isClose(user.getLocation(), event.getLocation());
             for (Interest interest : user.getInterests()) {
-                if (event.getInterests().contains(interest) && isClose) {
+                if (event.getState() == State.OPEN && event.getInterests().contains(interest) && isClose) {
                     events.add(event);
                     break;
                 }
@@ -35,24 +35,21 @@ public class Recommendation {
             pairings.put(user.getId(), events);
     }
 
-    public void recommendEvent(Event event, ArrayList<User> users) {
+    public ArrayList<User> recommendEventToUsers(Event event, ArrayList<User> users) {
+        ArrayList<User> usersRecommended = new ArrayList<>();
+        if(event.getState() != State.OPEN)
+            return usersRecommended;
+
         for (User user : users) {
             boolean isClose = isClose(user.getLocation(), event.getLocation());
             for (Interest interest : user.getInterests()) {
-                if(pairings.containsKey(user.getId()) && pairings.get(user.getId()).stream().anyMatch(e -> e.getId().equals(event.getId()))) break;
                 if (event.getInterests().contains(interest) && isClose) {
-                    if(pairings.containsKey(user.getId())) {
-                        ArrayList<Event> events = pairings.get(user.getId());
-                        events.add(event);
-                        pairings.replace(user.getId(), events);
-                    } else {
-                        ArrayList<Event> events = new ArrayList<>();
-                        events.add(event);
-                        pairings.put(user.getId(), events);
-                    }
+                    usersRecommended.add(user);
+                    break;
                 }
             }
         }
+        return usersRecommended;
     }
 
     private boolean isClose(Location A, Location B) {
