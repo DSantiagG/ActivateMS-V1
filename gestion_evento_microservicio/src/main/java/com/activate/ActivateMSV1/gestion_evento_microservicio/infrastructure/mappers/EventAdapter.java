@@ -55,6 +55,8 @@ public class EventAdapter {
                 .noneMatch(ep -> ep.getUser().getId().equals(p.getUser().getId())));
         mapParticipantsToInfrastructure(event.getParticipants(), eventMapped);
 
+        eventMapped.getEvaluations().removeIf(e -> event.getEvaluations().stream()
+                .noneMatch(ev -> ev.getId().equals(e.getId())));
         mapEvaluationToInfrastructure(event.getEvaluations(), eventMapped);
 
         eventMapped.getEvaluations().forEach(e -> {
@@ -78,9 +80,11 @@ public class EventAdapter {
 
     private void mapEvaluationToInfrastructure(ArrayList<Evaluation> evaluations, Event event) {
         for (Evaluation evaluation : evaluations) {
-            com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation e =
-                    new com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation(null, evaluation.getComment(), evaluation.getScore(), evaluation.getAuthor().getUser().getId(), event);
-            event.getEvaluations().add(e);
+            if(event.getEvaluations().stream().noneMatch(e -> e.getId().equals(evaluation.getId()))) {
+                com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation e =
+                        new com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.command.model.Evaluation(null, evaluation.getComment(), evaluation.getScore(), evaluation.getAuthor().getUser().getId(), event);
+                event.getEvaluations().add(e);
+            }
         }
     }
 

@@ -1,58 +1,137 @@
 package com.activate.ActivateMSV1.gestion_evento_microservicio.ui.controller;
 
 import com.activate.ActivateMSV1.gestion_evento_microservicio.application.service.EventService;
+import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.dto.EvaluationRequest;
 import com.activate.ActivateMSV1.gestion_evento_microservicio.infrastructure.repository.event.query.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @RestController
+@RequestMapping("/api/activate/event")
 public class EventController {
-    /**
-     * Application layer object
-     */
+
     @Autowired
     private EventService eventService;
 
-    public Event getEvent(Long eventId) throws Exception {
-        return eventService.getEvent(eventId);
+    /**
+     * Get an event by id
+     * @param eventId Event id
+     * @return Event data if found otherwise 404 Not Found
+     * @throws Exception
+     */
+    @GetMapping("/{eventId}")
+    public ResponseEntity<?> getEvent(@PathVariable Long eventId) {
+        Event event = eventService.getEvent(eventId);
+        return ResponseEntity.ok(event);
     }
 
-    public ArrayList<Event> getEvents() throws Exception {
-        return eventService.getEvents();
+    /**
+     * Get all events
+     * @return List of events if found otherwise 404 Not Found
+     */
+    @GetMapping
+    public ResponseEntity<?> getEvents() {
+        ArrayList<Event> events = eventService.getEvents();
+        if (events.size() == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(events);
     }
 
-    public void updateType(Long eventId) throws Exception {
+    /**
+     * Create a new event
+     * @param eventId Event id
+     * @return 204 No Content if the event is updated successfully or 400 Bad Request if the event can not be updated
+     */
+    @PutMapping("/{eventId}/type")
+    public ResponseEntity<?> updateType(@PathVariable Long eventId) {
         eventService.updateType(eventId);
+        return ResponseEntity.noContent().build();
     }
 
-    public void updateMaxCapacity(Long eventId, int maxCapacity) throws Exception {
+    /**
+     * Update the maximum capacity of an event
+     * @param eventId Event id
+     * @param maxCapacity New maximum capacity
+     * @return 204 No Content if the event is updated successfully or 400 Bad Request if the event can not be updated
+     */
+    @PutMapping("/{eventId}/maxCapacity")
+    public ResponseEntity<?> updateMaxCapacity(@PathVariable Long eventId, @RequestParam int maxCapacity) {
         eventService.updateMaxCapacity(eventId, maxCapacity);
+        return ResponseEntity.noContent().build();
     }
 
-    public void updateDate(Long eventId, LocalDateTime date) throws Exception {
+    /**
+     * Update the date of an event
+     * @param eventId Event id
+     * @param date New date
+     * @return 204 No Content if the event is updated successfully or 400 Bad Request if the event can not be updated
+     */
+    @PutMapping("/{eventId}/date")
+    public ResponseEntity<?> updateDate(@PathVariable Long eventId, @RequestParam LocalDateTime date) {
         eventService.updateDate(eventId, date);
+        return ResponseEntity.noContent().build();
     }
 
-    public void addEvaluation(Long eventId, String comment, int score, Long participantId) throws Exception {
-        eventService.addEvaluation(eventId, comment, score, participantId);
+    /**
+     * Add an evaluation to an event
+     * @param eventId Event id
+     * @param request Evaluation data
+     * @return 201 Created if the evaluation is added successfully or 400 Bad Request if the evaluation can not be added
+     */
+    @PostMapping("/{eventId}/evaluation")
+    public ResponseEntity<?> addEvaluation(@PathVariable Long eventId, @RequestBody EvaluationRequest request) {
+        eventService.addEvaluation(eventId, request.getComment(), request.getScore(), request.getParticipantId());
+        return ResponseEntity.created(null).build();
     }
 
-    public void addParticipant(Long eventId, Long participantId) throws Exception {
+    /**
+     * Add a participant to an event
+     * @param eventId Event id
+     * @param participantId Participant id
+     * @return 204 No Content if the participant is added successfully or 400 Bad Request if the participant can not be added
+     */
+    @PutMapping("/{eventId}/participant/{participantId}")
+    public ResponseEntity<?> addParticipant(@PathVariable Long eventId, @PathVariable Long participantId){
         eventService.addParticipant(eventId, participantId);
+        return ResponseEntity.noContent().build();
     }
 
-    public void removeParticipant(Long eventId, Long participantId) throws Exception {
+    /**
+     * Remove a participant from an event
+     * @param eventId Event id
+     * @param participantId Participant id
+     * @return 204 No Content if the participant is removed successfully or 400 Bad Request if the participant can not be removed
+     */
+    @DeleteMapping("/{eventId}/participant/{participantId}")
+    public ResponseEntity<?> removeParticipant(@PathVariable Long eventId, @PathVariable Long participantId) {
         eventService.removeParticipant(eventId, participantId);
+        return ResponseEntity.noContent().build();
     }
 
-    public void startEvent(Long eventId) throws Exception {
+    /**
+     * Start an event
+     * @param eventId Event id
+     * @return 204 No Content if the event is started successfully or 400 Bad Request if the event can not be started
+     */
+    @PutMapping("/{eventId}/start")
+    public ResponseEntity<?> startEvent(@PathVariable Long eventId) {
         eventService.startEvent(eventId);
+        return ResponseEntity.noContent().build();
     }
 
-    public void endEvent(Long eventId) throws Exception {
+    /**
+     * Finish an event
+     * @param eventId Event id
+     * @return 204 No Content if the event is finished successfully or 400 Bad Request if the event can not be finished
+     */
+    @PutMapping("/{eventId}/finish")
+    public ResponseEntity <?> finishEvent(@PathVariable Long eventId) {
         eventService.finishEvent(eventId);
+        return ResponseEntity.noContent().build();
     }
 }

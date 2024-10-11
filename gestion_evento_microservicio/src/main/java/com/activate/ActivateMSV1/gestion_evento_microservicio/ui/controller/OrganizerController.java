@@ -15,7 +15,7 @@ public class OrganizerController {
     private OrganizerService organizerService;
 
     /**
-     * Creates an event
+     * Create an event
      * @param eventRequest Event data
      * @return 201 Created if the event was created successfully otherwise 400 Bad Request
      */
@@ -27,7 +27,7 @@ public class OrganizerController {
     }
 
     /**
-     *  Cancels an event
+     *  Cancel an event
      * @param organizerId Event organizer id
      * @param eventId Event id to cancel
      * @return 200 OK if the event was canceled successfully otherwise 400 Bad Request
@@ -35,6 +35,6 @@ public class OrganizerController {
     @PutMapping("/{organizerId}/cancel/{eventId}")
     public ResponseEntity cancelEvent(@PathVariable Long organizerId, @PathVariable Long eventId) {
         organizerService.cancelEvent(eventId, organizerId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
