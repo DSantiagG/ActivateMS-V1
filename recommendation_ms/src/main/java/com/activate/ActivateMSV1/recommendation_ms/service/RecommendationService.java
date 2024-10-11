@@ -4,6 +4,7 @@ import com.activate.ActivateMSV1.recommendation_ms.domain.Event;
 import com.activate.ActivateMSV1.recommendation_ms.domain.Recommendation;
 import com.activate.ActivateMSV1.recommendation_ms.domain.User;
 import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.UserDTO;
+import com.activate.ActivateMSV1.recommendation_ms.infra.exceptions.ServiceValidationException;
 import com.activate.ActivateMSV1.recommendation_ms.infra.mappers.EventMapper;
 import com.activate.ActivateMSV1.recommendation_ms.infra.DTO.EventInfoDTO;
 import com.activate.ActivateMSV1.recommendation_ms.infra.mappers.UserMapper;
@@ -26,6 +27,10 @@ public class RecommendationService {
 
         User user = UserMapper.INSTANCE.toDomainUser(userService.getUser(userId));
 
+        if(user == null) {
+            throw new ServiceValidationException("User not found");
+        }
+
         eventService.getEvents()
                 .forEach(
                         event -> domainEvents.add(EventMapper.INSTANCE.toDomainEvent(event))
@@ -43,17 +48,26 @@ public class RecommendationService {
         Event event = EventMapper.INSTANCE.toDomainEvent(eventService.getEvent(eventId));
         ArrayList<User> users = new ArrayList<>();
         ArrayList<UserDTO> usersRecommended = new ArrayList<>();
+
         userService.getAllUsers()
                 .forEach(
                         user -> users.add(UserMapper.INSTANCE.toDomainUser(user))
                 );
 
-        recommendationDomain.recommendEventToUsers(event, users);
+        recommendationDomain.recommendEventToUsers(event, users)
+                .forEach(
+                        user -> usersRecommended.add(UserMapper.INSTANCE.toUserDTO(user))
+                );
+
         return usersRecommended;
     }
 
     public ArrayList<EventInfoDTO> getRecommendations(Long userId) {
         ArrayList<EventInfoDTO> eventsRecommendations = new ArrayList<>();
+
+        if(userService.getUser(userId) == null) {
+            throw new ServiceValidationException("User not found");
+        }
 
         recommendationDomain.getRecommendations(userId).forEach(
                 event -> eventsRecommendations.add(EventMapper.INSTANCE.toEventInfoDTO(event))

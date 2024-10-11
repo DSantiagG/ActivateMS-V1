@@ -22,4 +22,7 @@ public interface EventMapper {
 
     @Mapping(target = "id", expression = "java(eventInfoDTO.getId() != null ? eventInfoDTO.getId().toString() : null)")
     com.activate.ActivateMSV1.recommendation_ms.infra.model.Event toRepoModelEvent(EventInfoDTO eventInfoDTO);
+
+    @Mapping(target = "id", expression = "java(event.getId() != null ? event.getId().toString() : null)")
+    com.activate.ActivateMSV1.recommendation_ms.infra.model.Event toRepoModelEvent(Event event);
 }
