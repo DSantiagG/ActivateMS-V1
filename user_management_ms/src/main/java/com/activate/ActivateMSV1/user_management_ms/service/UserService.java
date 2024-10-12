@@ -24,7 +24,8 @@ public class UserService {
 
     public void createUser(String name, int age, String email, Set<InterestDTO> interests, LocationDTO locationDTO) throws Exception {
         Location location = new Location(locationDTO.getLatitude(), locationDTO.getLength());
-        User user = new User(-1L, name, age, email, interests,location);
+        HashSet<InterestDTO> interestsSet = new HashSet<>(interests);
+        User user = new User(-1L, name, age, email, interestsSet,location);
         ModUser userMapped = userAdapter.mapDomainUserToModel(user);
         userRepository.save(userMapped);
     }

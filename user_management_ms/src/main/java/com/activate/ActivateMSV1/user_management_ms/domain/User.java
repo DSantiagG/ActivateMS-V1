@@ -17,6 +17,7 @@ public class User {
     private String email;
     private HashSet<InterestDTO> interests;
     private Location location;
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
     public User(Long id, String name, int age, String email, HashSet<InterestDTO> interests, Location location) throws Exception {
         this.id = id;
@@ -41,11 +42,10 @@ public class User {
     }
 
     private boolean isValidEmail(String email) {
-        String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         if (email == null) {
             return false;
         }
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }

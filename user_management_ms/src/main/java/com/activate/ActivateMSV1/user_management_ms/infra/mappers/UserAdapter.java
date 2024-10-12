@@ -6,10 +6,13 @@ import com.activate.ActivateMSV1.user_management_ms.infra.dto.*;
 import com.activate.ActivateMSV1.user_management_ms.infra.repository.*;
 import com.activate.ActivateMSV1.user_management_ms.infra.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Service
 public class UserAdapter {
     @Autowired
     private UserRepository userRepository;

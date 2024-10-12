@@ -21,7 +21,7 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
         try {
             userService.createUser(userDTO.getName(), userDTO.getAge(), userDTO.getEmail(), userDTO.getInterests(), userDTO.getLocation());
-            return ResponseEntity.ok("Usuario creado exitosamente");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -58,9 +58,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}/interests")
-    public ResponseEntity<String> addInterest(@PathVariable Long id, @RequestBody InterestDTO interestDTO) {
+    public ResponseEntity<String> addInterest(@PathVariable Long id, @RequestBody InterestRequestDTO interestDTO) {
         try {
-            userService.addInterest(id, interestDTO);
+            userService.addInterest(id, interestDTO.getInterest());
             return ResponseEntity.ok("Interés agregado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -68,9 +68,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}/interests")
-    public ResponseEntity<String> deleteInterest(@PathVariable Long id, @RequestBody InterestDTO interestDTO) {
+    public ResponseEntity<String> deleteInterest(@PathVariable Long id, @RequestBody InterestRequestDTO interestDTO) {
         try {
-            userService.deleteInterest(id, interestDTO);
+            userService.deleteInterest(id, interestDTO.getInterest());
             return ResponseEntity.ok("Interés eliminado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
