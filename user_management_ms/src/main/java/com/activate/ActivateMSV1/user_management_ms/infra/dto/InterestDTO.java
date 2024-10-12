@@ -1,6 +1,6 @@
-package com.activate.ActivateMSV1.user_management_ms.domain;
+package com.activate.ActivateMSV1.user_management_ms.infra.dto;
 
-public enum Interest {
+public enum InterestDTO {
     VIDEOJUEGOS,
     POLITICA,
     GASTRONOMIA,

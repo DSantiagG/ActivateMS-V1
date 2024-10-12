@@ -1,20 +1,24 @@
 package com.activate.ActivateMSV1.user_management_ms.domain;
 
 import com.activate.ActivateMSV1.user_management_ms.domain.exceptions.*;
+import com.activate.ActivateMSV1.user_management_ms.infra.dto.InterestDTO;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+@Getter
 public class User {
     private Long id;
     private String name;
     private int age;
     private String email;
-    private HashSet<Interest> interests;
+    private HashSet<InterestDTO> interests;
     private Location location;
 
-    public User(Long id, String name, int age, String email, HashSet<Interest> interests, Location location) throws Exception {
+    public User(Long id, String name, int age, String email, HashSet<InterestDTO> interests, Location location) throws Exception {
         this.id = id;
         this.name = name;
         if(age <0) throw new NegativeAgeException();
@@ -46,12 +50,12 @@ public class User {
         return matcher.matches();
     }
 
-    public boolean addInterest(Interest interest) throws Exception {
+    public boolean addInterest(InterestDTO interest) throws Exception {
         if(interests.contains(interest)) throw new InterestAlreadyAddedException();
         return interests.add(interest);
     }
 
-    public boolean deleteInterest(Interest interest) throws Exception {
+    public boolean deleteInterest(InterestDTO interest) throws Exception {
         if(!interests.contains(interest)) throw new InterestNotFoundException();
         if(interests.size()-1<3) throw new CannotRemoveInterestException();
         return interests.remove(interest);

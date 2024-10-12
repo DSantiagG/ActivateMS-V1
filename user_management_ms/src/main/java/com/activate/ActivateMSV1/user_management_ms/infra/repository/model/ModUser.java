@@ -1,5 +1,6 @@
 package com.activate.ActivateMSV1.user_management_ms.infra.repository.model;
 
+import com.activate.ActivateMSV1.user_management_ms.infra.dto.InterestDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,13 +24,13 @@ public class ModUser {
 
     private String email;
 
-    @ElementCollection(fetch = FetchType.EAGER, targetClass = ModInterest.class)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = InterestDTO.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_interest", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "interest")
     @Fetch(FetchMode.JOIN)
-    private Set<ModInterest> modInterests;
+    private Set<InterestDTO> interests;
     @Embedded
-    private ModLocation modLocation;
+    private ModLocation location;
 
 }

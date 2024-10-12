@@ -1,14 +1,13 @@
-package com.activate.ActivateMSV1.user_management_ms.domain;
-
+package com.activate.ActivateMSV1.user_management_ms.infra.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Location {
+public class LocationDTO {
     private double latitude;
     private double length;
 }
