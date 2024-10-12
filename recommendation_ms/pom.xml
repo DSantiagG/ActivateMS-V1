@@ -77,6 +77,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<mainClass>com.activate.ActivateMSV1.recommendation_ms.RecommendationMsApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
