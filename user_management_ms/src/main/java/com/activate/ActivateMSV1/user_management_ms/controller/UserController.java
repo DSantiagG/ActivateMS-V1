@@ -17,6 +17,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Creates a new user.
+     *
+     * Accepts a `UserDTO` in the request body and uses `UserService` to create and save the user.
+     * Returns a `201 Created` status on success, or `400 Bad Request` with an error message on failure.
+     *
+     * @param userDTO The user's data (name, age, email, interests, location).
+     * @return `201 Created` on success, or `400 Bad Request` on error.
+     */
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
         try {
@@ -27,6 +36,15 @@ public class UserController {
         }
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * Fetches a `UserDTO` by ID from the `UserService`.
+     * Returns `200 OK` with the user data, or `404 Not Found` if the user doesn't exist.
+     *
+     * @param id The user's ID.
+     * @return `200 OK` with the user data, or `404 Not Found` if not found.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         try {
@@ -37,6 +55,14 @@ public class UserController {
         }
     }
 
+    /**
+     * Retrieves all users.
+     *
+     * Fetches a list of all `UserDTO` from the `UserService`.
+     * Returns `200 OK` with the list of users, or `400 Bad Request` in case of an error.
+     *
+     * @return `200 OK` with the list of users, or `400 Bad Request` on error.
+     */
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         try {
@@ -47,6 +73,17 @@ public class UserController {
         }
     }
 
+
+    /**
+     * Updates the profile of an existing user.
+     *
+     * Modifies the user profile identified by the provided `id` using the information from `UserDTO`.
+     * Returns `200 OK` if the update is successful, or `400 Bad Request` in case of an error.
+     *
+     * @param id The ID of the user whose profile is being updated.
+     * @param userDTO The user data to update (name, age, email).
+     * @return `200 OK` if successful, or `400 Bad Request` on error.
+     */
     @PutMapping("/{id}/profile")
     public ResponseEntity<String> editProfile(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         try {
@@ -57,6 +94,16 @@ public class UserController {
         }
     }
 
+    /**
+     * Adds a new interest to the user.
+     *
+     * Adds an interest to the user identified by the provided `id` using the `InterestRequestDTO` data.
+     * Returns `200 OK` if the interest is added successfully, or `400 Bad Request` in case of an error.
+     *
+     * @param id The ID of the user to whom the interest will be added.
+     * @param interestDTO The interest to be added.
+     * @return `200 OK` if successful, or `400 Bad Request` on error.
+     */
     @PutMapping("/{id}/interests")
     public ResponseEntity<String> addInterest(@PathVariable Long id, @RequestBody InterestRequestDTO interestDTO) {
         try {
@@ -67,6 +114,16 @@ public class UserController {
         }
     }
 
+    /**
+     * Deletes an interest from the user.
+     *
+     * Removes an interest from the user identified by the provided `id` using the `InterestRequestDTO` data.
+     * Returns `200 OK` if the interest is deleted successfully, or `400 Bad Request` in case of an error.
+     *
+     * @param id The ID of the user from whom the interest will be removed.
+     * @param interestDTO The interest to be removed.
+     * @return `200 OK` if successful, or `400 Bad Request` on error.
+     */
     @DeleteMapping("/{id}/interests")
     public ResponseEntity<String> deleteInterest(@PathVariable Long id, @RequestBody InterestRequestDTO interestDTO) {
         try {
@@ -77,6 +134,17 @@ public class UserController {
         }
     }
 
+
+    /**
+     * Updates the location of the user.
+     *
+     * Updates the location of the user identified by the provided `id` using the `LocationDTO` data.
+     * Returns `200 OK` if the location is updated successfully, or `400 Bad Request` in case of an error.
+     *
+     * @param id The ID of the user whose location will be updated.
+     * @param locationDTO The new location data.
+     * @return `200 OK` if successful, or `400 Bad Request` on error.
+     */
     @PutMapping("/{id}/location")
     public ResponseEntity<String> updateLocation(@PathVariable Long id, @RequestBody LocationDTO locationDTO) {
         try {
