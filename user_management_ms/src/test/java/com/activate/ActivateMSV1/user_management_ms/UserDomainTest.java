@@ -17,9 +17,9 @@ public class UserDomainTest {
     @BeforeEach
     void setUp() throws Exception {
         interests = new HashSet<>();
-        interests.add(InterestDTO.CINE);
-        interests.add(InterestDTO.MUSICA);
-        interests.add(InterestDTO.DEPORTE);
+        interests.add(InterestDTO.CINEMA);
+        interests.add(InterestDTO.MUSIC);
+        interests.add(InterestDTO.SPORTS);
         location = new Location(40L, -3L);
         user = new User(1L, "Pepe", 20, "pepe@gmail.com", interests, location);
     }
@@ -38,8 +38,8 @@ public class UserDomainTest {
     @Test
     void testConstructorInsufficientInterests() {
         HashSet<InterestDTO> pocosIntereses = new HashSet<>();
-        pocosIntereses.add(InterestDTO.CINE);
-        pocosIntereses.add(InterestDTO.MUSICA);
+        pocosIntereses.add(InterestDTO.CINEMA);
+        pocosIntereses.add(InterestDTO.MUSIC);
         Exception exception = assertThrows(Exception.class, () -> {
             new User(1L, "Pepe", 20, "pepe@gmail.com", pocosIntereses, location);
         });
@@ -112,29 +112,29 @@ public class UserDomainTest {
 
     @Test
     void testAddInterest() throws Exception {
-        assertTrue(user.addInterest(InterestDTO.TECNOLOGIA));
-        assertTrue(user.getInterests().contains(InterestDTO.TECNOLOGIA));
+        assertTrue(user.addInterest(InterestDTO.TECHNOLOGY));
+        assertTrue(user.getInterests().contains(InterestDTO.TECHNOLOGY));
     }
 
     @Test
     void testAddInterestThrowExceptionInterestAlreadyExist() throws Exception {
         Exception exception = assertThrows(Exception.class, () -> {
-            user.addInterest(InterestDTO.CINE);
+            user.addInterest(InterestDTO.CINEMA);
         });
         assertEquals("El interés ya ha sido agregado previamente", exception.getMessage());
     }
 
     @Test
     void testDeleteInterest() throws Exception {
-        assertTrue(user.addInterest(InterestDTO.TECNOLOGIA));
-        assertTrue(user.deleteInterest(InterestDTO.TECNOLOGIA));
-        assertFalse(user.getInterests().contains(InterestDTO.TECNOLOGIA));
+        assertTrue(user.addInterest(InterestDTO.TECHNOLOGY));
+        assertTrue(user.deleteInterest(InterestDTO.TECHNOLOGY));
+        assertFalse(user.getInterests().contains(InterestDTO.TECHNOLOGY));
     }
 
     @Test
     void testDeleteInterestThrowExceptionInsufficientInterests() throws Exception {
         Exception exception = assertThrows(Exception.class, () -> {
-            user.deleteInterest(InterestDTO.CINE);
+            user.deleteInterest(InterestDTO.CINEMA);
         });
         assertEquals("No se puede eliminar el interés. Debes tener al menos tres intereses registrados", exception.getMessage());
     }

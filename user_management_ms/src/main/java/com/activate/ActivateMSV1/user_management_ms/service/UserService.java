@@ -26,7 +26,7 @@ public class UserService {
     private UserPublisherService userPublisherService;
 
     public void createUser(String name, int age, String email, Set<InterestDTO> interests, LocationDTO locationDTO) throws Exception {
-        Location location = new Location(locationDTO.getLatitude(), locationDTO.getLength());
+        Location location = new Location(locationDTO.getLatitude(), locationDTO.getLongitude());
         HashSet<InterestDTO> interestsSet = new HashSet<>(interests);
         User user = new User(-1L, name, age, email, interestsSet,location);
         ModUser userMapped = userAdapter.mapDomainUserToModel(user);
@@ -40,7 +40,7 @@ public class UserService {
         return userAdapter.mapModelUserToDTO(user);
     }
 
-    public ArrayList<UserDTO> getUsers() throws Exception {
+    public ArrayList<UserDTO> getUsers(){
         ArrayList<UserDTO> users = new ArrayList<>();
         for (ModUser user : userRepository.findAll()) {
             users.add(userAdapter.mapModelUserToDTO(user));
@@ -84,7 +84,7 @@ public class UserService {
     public void udpateLocation(Long id, LocationDTO location) throws Exception {
         ModUser userModel = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado"));
         User userDomain = userAdapter.mapModelUserToDomain(userModel);
-        userDomain.updateLocation(new Location(location.getLatitude(), location.getLength()));
+        userDomain.updateLocation(new Location(location.getLatitude(), location.getLongitude()));
         ModUser userMapped = userAdapter.mapDomainUserToModel(userDomain);
 
         userRepository.save(userMapped);

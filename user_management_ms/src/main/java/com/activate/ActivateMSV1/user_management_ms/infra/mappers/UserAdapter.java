@@ -6,7 +6,6 @@ import com.activate.ActivateMSV1.user_management_ms.infra.dto.*;
 import com.activate.ActivateMSV1.user_management_ms.infra.repository.*;
 import com.activate.ActivateMSV1.user_management_ms.infra.repository.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -29,7 +28,7 @@ public class UserAdapter {
             interestsMapped.add(InterestDTO.valueOf(interes.toString()));
         }
         userMapped.setInterests(interestsMapped);
-        userMapped.setLocation(new ModLocation(user.getLocation().getLatitude(), user.getLocation().getLength()));
+        userMapped.setLocation(new ModLocation(user.getLocation().getLatitude(), user.getLocation().getLongitude()));
         return userMapped;
     }
 

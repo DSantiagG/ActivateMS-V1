@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LocationDTO {
     private double latitude;
-    private double length;
+    private double longitude;
 }

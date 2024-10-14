@@ -61,7 +61,7 @@ public class User {
     }
 
     public boolean updateLocation(Location location) throws Exception {
-        if(location.getLatitude()==this.location.getLatitude() && location.getLength()==this.location.getLength())
+        if(location.getLatitude()==this.location.getLatitude() && location.getLongitude()==this.location.getLongitude())
             throw new UnnecessaryLocationUpdateException();
         this.location = location;
         return true;
