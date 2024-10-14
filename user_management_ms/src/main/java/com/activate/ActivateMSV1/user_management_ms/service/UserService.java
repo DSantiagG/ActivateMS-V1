@@ -22,12 +22,17 @@ public class UserService {
     @Autowired
     private UserAdapter userAdapter;
 
+    @Autowired
+    private UserPublisherService userPublisherService;
+
     public void createUser(String name, int age, String email, Set<InterestDTO> interests, LocationDTO locationDTO) throws Exception {
         Location location = new Location(locationDTO.getLatitude(), locationDTO.getLength());
         HashSet<InterestDTO> interestsSet = new HashSet<>(interests);
         User user = new User(-1L, name, age, email, interestsSet,location);
         ModUser userMapped = userAdapter.mapDomainUserToModel(user);
         userRepository.save(userMapped);
+        userPublisherService.publishUserToEvent(userMapped);
+        userPublisherService.publishUserToRecommendation(userMapped);
     }
 
     public UserDTO getUserById(Long id) throws Exception {
@@ -47,28 +52,44 @@ public class UserService {
         ModUser userModel = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado"));
         User userDomain = userAdapter.mapModelUserToDomain(userModel);
         userDomain.editProfile(name, age, email);
-        userRepository.save(userAdapter.mapDomainUserToModel(userDomain));
+        ModUser userMapped = userAdapter.mapDomainUserToModel(userDomain);
+        userRepository.save(userMapped);
+        userPublisherService.publishUserToEvent(userMapped);
+        userPublisherService.publishUserToRecommendation(userMapped);
+
     }
 
     public void addInterest(Long id, InterestDTO interest) throws Exception {
         ModUser userModel = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado"));
         User userDomain = userAdapter.mapModelUserToDomain(userModel);
         userDomain.addInterest(interest);
-        userRepository.save(userAdapter.mapDomainUserToModel(userDomain));
+        ModUser userMapped = userAdapter.mapDomainUserToModel(userDomain);
+
+        userRepository.save(userMapped);
+        userPublisherService.publishUserToEvent(userMapped);
+        userPublisherService.publishUserToRecommendation(userMapped);
     }
 
     public void deleteInterest(Long id, InterestDTO interest) throws Exception {
         ModUser userModel = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado"));
         User userDomain = userAdapter.mapModelUserToDomain(userModel);
         userDomain.deleteInterest(interest);
-        userRepository.save(userAdapter.mapDomainUserToModel(userDomain));
+        ModUser userMapped = userAdapter.mapDomainUserToModel(userDomain);
+
+        userRepository.save(userMapped);
+        userPublisherService.publishUserToEvent(userMapped);
+        userPublisherService.publishUserToRecommendation(userMapped);
     }
 
     public void udpateLocation(Long id, LocationDTO location) throws Exception {
         ModUser userModel = userRepository.findById(id).orElseThrow(() -> new Exception("Usuario no encontrado"));
         User userDomain = userAdapter.mapModelUserToDomain(userModel);
         userDomain.updateLocation(new Location(location.getLatitude(), location.getLength()));
-        userRepository.save(userAdapter.mapDomainUserToModel(userDomain));
+        ModUser userMapped = userAdapter.mapDomainUserToModel(userDomain);
+
+        userRepository.save(userMapped);
+        userPublisherService.publishUserToEvent(userMapped);
+        userPublisherService.publishUserToRecommendation(userMapped);
     }
 
 
