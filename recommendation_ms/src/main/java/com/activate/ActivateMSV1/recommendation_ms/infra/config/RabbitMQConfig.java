@@ -9,8 +9,9 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
 @Configuration
 public class RabbitMQConfig {
-    public static final String USER_QUEUE = "userQueue";
-    public static final String EVENT_QUEUE = "eventQueueRecommendation";
+
+    public static final String USER_QUEUE = "userQueueRecommendation";
+    public static final String EVENT_QUEUE = "eventQueue";
     public static final String NOTIFICATION_QUEUE = "notificationQueue";
 
     @Bean
