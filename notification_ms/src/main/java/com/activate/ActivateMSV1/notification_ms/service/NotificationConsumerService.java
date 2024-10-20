@@ -19,16 +19,14 @@ public class NotificationConsumerService {
         try {
             System.out.println("Mensaje recibido de NOTIFICATION_QUEUE: " + notification);
 
-            // Aquí puedes agregar lógica para validar el notification DTO
             if (notification.getUserId() == null || notification.getTitle() == null) {
                 throw new DomainException("UserId o Title no pueden ser nulos");
             }
 
-            // Enviar el mismo NotificationDTO a userNotiQueue
             rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_USER_NOTI, notification);
             System.out.println("Notificación enviada a userNotiQueue: " + notification);
         } catch (Exception e) {
-            // Lanzar una excepción personalizada
+
             throw new DomainException("Error al consumir la notificación: " + e.getMessage());
         }
     }
