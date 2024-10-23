@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Event {
-    @Getter
+    @Getter @Setter
     private Long id;
     @Getter
     private int maxCapacity;

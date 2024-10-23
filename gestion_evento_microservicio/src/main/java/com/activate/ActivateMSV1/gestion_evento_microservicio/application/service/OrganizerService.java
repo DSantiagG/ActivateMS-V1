@@ -54,7 +54,9 @@ public class OrganizerService {
         organizer.createEvent(event);
 
         Event eventMapped = eventAdapter.mapEventToInfrastructure(event);
-        eventCommandRepository.save(eventMapped);
+        Event eventCreated = eventCommandRepository.save(eventMapped);
+        event.setId(eventCreated.getId());
+
 
         eventPublisherService.publishEvent(event);    // Publish event
     }

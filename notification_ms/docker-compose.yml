@@ -1,26 +1,11 @@
 version: '3'
 
 services:
-  rabbitmq:
-    image: rabbitmq:management
-    container_name: rabbitmq
+  notification-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "5672:5672"       # Puerto para las conexiones de RabbitMQ
-      - "15672:15672"     # Puerto para la consola de administración
+      - "8083:8083"
     environment:
-      RABBITMQ_DEFAULT_USER: guest      # Usuario por defecto
-      RABBITMQ_DEFAULT_PASS: guest  # Contraseña por defecto
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq  # Persistencia de datos
-
-  mongodb:
-    image: mongo:5.0
-    ports:
-      - '10002:27017'
-    volumes:
-      - ~/docker-volumes/personal/cqrs-mongo:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=mongo
-      - MONGO_INITDB_ROOT_PASSWORD=mongo
-volumes:
-  rabbitmq_data:
+      - SPRING_RABBITMQ_HOST=host.docker.internal
