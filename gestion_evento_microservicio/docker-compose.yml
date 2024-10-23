@@ -1,0 +1,37 @@
+version: '3'
+services:
+  event-server-db-postgres:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ~/docker-volumes/personal/Activate/event-server-postgres:/var/lib/postgresql
+    ports:
+      - "5432"
+
+  event-server-db-mongo:
+    image: mongo:5.0
+    restart: always
+    volumes:
+      - ~/docker-volumes/personal/Activate/event-server-mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
+    ports:
+      - "27017"
+
+  event-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - event-server-db-postgres
+      - event-server-db-mongo
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://event-server-db-postgres:5432/postgres
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:mongo@event-server-db-mongo:27017/admin
+      - SPRING_RABBITMQ_HOST=host.docker.internal
