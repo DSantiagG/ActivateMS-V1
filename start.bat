@@ -1,59 +1,71 @@
-# ---------- RabbitMQ ------------------
+@echo off
 
-docker compose down
+:: ---------- RabbitMQ ------------------
+docker-compose down
 docker rmi rabbitmq:latest
+docker-compose up -d
+echo "RabbitMQ is running"
+pause
 
-docker compose up -d
-read -p "RabbitMQ is running. Press enter to continue..."
-
-# ---------- User Service ------------------
+:: ---------- User Service ------------------
 cd user_management_ms
-docker compose down
+
+docker-compose down
 docker rmi user_management_ms-user-server:latest
 
-#Crear .jar
-mvn clean package -DskipTests
+:: Crear .jar en un subproceso
+start /wait cmd /c "mvn clean package -DskipTests"
 
-#Levantar contenedor
-docker compose up -d
-read -p "User Microservice is running. Press enter to continue..."
+:: Levantar contenedor
+docker-compose up -d
 cd ..
+echo "User Service is running"
+pause
 
-# ---------- Notification Service ------------------
-cd notification_ms
-docker compose down
+:: ---------- Notification Service ------------------
+call cd notification_ms
+docker-compose down
 docker rmi notification_ms-notification-server:latest
 
-#Crear .jar
-mvn clean package -DskipTests
+:: Crear .jar
+start /wait cmd /c "mvn clean package -DskipTests"
+call pause
 
-#Levantar contenedor
-docker compose up -d
-read -p "Notification Microservice is running. Press enter to continue..."
-cd ..
+:: Levantar contenedor
+docker-compose up -d
+echo "Notification Service is running"
+call pause
+call cd ..
 
-# ---------- Recommendation Service ------------------
-cd recommendation_ms
-docker compose down
+:: ---------- Recommendation Service ------------------
+call cd recommendation_ms
+docker-compose down
 docker rmi recommendation_ms-recommendation-server:latest
 
-#Crear .jar
-mvn clean package -DskipTests
+:: Crear .jar
+start /wait cmd /c "mvn clean package -DskipTests"
+call pause
 
-#Levantar contenedor
-docker compose up -d
-read -p "Recommendation Microservice is running. Press enter to continue..."
-cd ..
+:: Levantar contenedor
+docker-compose up -d
+echo "Recommendation Service is running"
+call pause
+call cd ..
 
-# ---------- Event Service ------------------
-cd gestion_evento_microservicio
-docker compose down
+:: ---------- Event Service ------------------
+call cd gestion_evento_microservicio
+docker-compose down
 docker rmi gestion_evento_microservicio-event-server:latest
 
-#Crear .jar
-mvn clean package -DskipTests
+:: Crear .jar
+start /wait cmd /c "mvn clean package -DskipTests"
+call pause
 
-#Levantar contenedor
-docker compose up -d
-read -p "Event Microservice is running. Press enter to continue..."
-cd ..
+:: Levantar contenedor
+docker-compose up -d
+echo "Event Service is running"
+call pause
+call cd ..
+
+:: Mantener la consola abierta
+cmd /k

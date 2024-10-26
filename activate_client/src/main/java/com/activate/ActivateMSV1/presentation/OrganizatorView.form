@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="OrganizatorPanel" layout-manager="GridLayoutManager" row-count="17" column-count="11" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1040" height="598"/>
+      <xy x="20" y="20" width="1143" height="710"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -17,15 +17,15 @@
           <text value="Información Eventos"/>
         </properties>
       </component>
-      <component id="458c1" class="javax.swing.JLabel">
+      <component id="458c1" class="javax.swing.JLabel" binding="lbSelEvent">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="&lt;html&gt;Selecciones&lt;br&gt; un evento&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="fc39" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="fc39" class="javax.swing.JComboBox" binding="cbxEvent">
         <constraints>
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -38,61 +38,61 @@
           </grid>
         </constraints>
       </vspacer>
-      <component id="d558a" class="javax.swing.JLabel">
+      <component id="d558a" class="javax.swing.JLabel" binding="lbName">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Nombre:"/>
         </properties>
       </component>
-      <component id="f9d8a" class="javax.swing.JLabel">
+      <component id="f9d8a" class="javax.swing.JLabel" binding="lbDescription">
         <constraints>
           <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Descripción:"/>
         </properties>
       </component>
-      <component id="44186" class="javax.swing.JLabel">
+      <component id="44186" class="javax.swing.JLabel" binding="lbMaxCapacity">
         <constraints>
           <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="&lt;html&gt;Máxima&lt;br&gt;capacidad&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="ac923" class="javax.swing.JLabel">
+      <component id="ac923" class="javax.swing.JLabel" binding="lbDuration">
         <constraints>
           <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Duración"/>
         </properties>
       </component>
-      <component id="95177" class="javax.swing.JLabel">
+      <component id="95177" class="javax.swing.JLabel" binding="lbDate">
         <constraints>
           <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Fecha"/>
         </properties>
       </component>
-      <component id="9a9cd" class="javax.swing.JLabel">
+      <component id="9a9cd" class="javax.swing.JLabel" binding="lbType">
         <constraints>
           <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Tipo"/>
         </properties>
       </component>
-      <component id="e41e1" class="javax.swing.JComboBox" default-binding="true">
+      <component id="e41e1" class="javax.swing.JComboBox" binding="cbxType">
         <constraints>
           <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="138bd" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="138bd" class="javax.swing.JTextField" binding="tfName">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -100,7 +100,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="c72e7" class="javax.swing.JTextField" default-binding="true">
+      <component id="c72e7" class="javax.swing.JTextField" binding="tfDescription">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -108,7 +108,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="66145" class="javax.swing.JTextField" default-binding="true">
+      <component id="66145" class="javax.swing.JTextField" binding="tfMaxCapacity">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -116,7 +116,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="5cb91" class="javax.swing.JTextField" default-binding="true">
+      <component id="5cb91" class="javax.swing.JTextField" binding="tfDuration">
         <constraints>
           <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -124,15 +124,15 @@
         </constraints>
         <properties/>
       </component>
-      <component id="c956a" class="javax.swing.JLabel">
+      <component id="c956a" class="javax.swing.JLabel" binding="lbLatitude">
         <constraints>
           <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Latitud"/>
         </properties>
       </component>
-      <component id="bb617" class="javax.swing.JTextField" default-binding="true">
+      <component id="bb617" class="javax.swing.JTextField" binding="tfLatitude">
         <constraints>
           <grid row="11" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -140,15 +140,15 @@
         </constraints>
         <properties/>
       </component>
-      <component id="23598" class="javax.swing.JLabel">
+      <component id="23598" class="javax.swing.JLabel" binding="lbLongitude">
         <constraints>
           <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Longitud"/>
         </properties>
       </component>
-      <component id="7cd8c" class="javax.swing.JTextField" default-binding="true">
+      <component id="7cd8c" class="javax.swing.JTextField" binding="tfLongitude">
         <constraints>
           <grid row="12" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -156,44 +156,44 @@
         </constraints>
         <properties/>
       </component>
-      <component id="17dd1" class="javax.swing.JLabel">
+      <component id="17dd1" class="javax.swing.JLabel" binding="lbInterests">
         <constraints>
           <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Intereses"/>
         </properties>
       </component>
-      <component id="df41" class="javax.swing.JComboBox" default-binding="true">
+      <component id="df41" class="javax.swing.JComboBox" binding="cbxInterests">
         <constraints>
           <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="ae8d" class="javax.swing.JTextField" default-binding="true">
+      <component id="ae8d" class="javax.swing.JTextField" binding="tfDate">
         <constraints>
           <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
         <properties>
-          <text value="aca no se como poner la date :c"/>
+          <text value=""/>
         </properties>
       </component>
-      <component id="1b56c" class="javax.swing.JLabel">
+      <component id="1b56c" class="javax.swing.JLabel" binding="lbInterAdded">
         <constraints>
           <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="&lt;html&gt;Intereses&lt;br&gt;agregados&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="595af" class="javax.swing.JLabel">
+      <component id="595af" class="javax.swing.JLabel" binding="lbInterEvent">
         <constraints>
           <grid row="14" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value=""/>
         </properties>
       </component>
       <vspacer id="44924">
@@ -201,12 +201,12 @@
           <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
-      <component id="14590" class="javax.swing.JButton" binding="button1" default-binding="true">
+      <component id="14590" class="javax.swing.JButton" binding="btnCreateEvent">
         <constraints>
           <grid row="15" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Crear evento"/>
         </properties>
       </component>
       <component id="8783" class="javax.swing.JTextField" default-binding="true">
@@ -324,12 +324,12 @@
           <text value="Button"/>
         </properties>
       </component>
-      <component id="94b53" class="javax.swing.JButton" binding="button4" default-binding="true">
+      <component id="94b53" class="javax.swing.JButton" binding="btnAddInterest">
         <constraints>
           <grid row="13" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Agregar"/>
         </properties>
       </component>
       <component id="8fb8f" class="javax.swing.JButton" binding="button2" default-binding="true">

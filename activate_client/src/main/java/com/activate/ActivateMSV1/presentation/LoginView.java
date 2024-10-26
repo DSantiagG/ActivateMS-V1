@@ -41,7 +41,7 @@ public class LoginView {
 
                 //TODO: Poner metodo que verifique si el usuario es participante, etc, etc
 
-                OrganizatorView organizatorViewView = new OrganizatorView(frame);
+                OrganizatorView organizatorViewView = new OrganizatorView(frame, 1L);   //TODO: Cambiar el 1L por el id del organizador
                 organizatorViewView.show();
                 frame.setVisible(false);
             }

@@ -35,13 +35,13 @@ public class GUIVerifier {
      * @return True if the JTextField is not numeric, False otherwise.
      */
     public static boolean isTextFieldNotNumeric(JTextField textField, String message) {
-        boolean result = true;
+        boolean result = false;
         try {
-            Integer.parseInt(textField.getText());
+            Double.parseDouble(textField.getText());
         } catch (NumberFormatException e) {
             showMessage(message);
             textField.requestFocus();
-            result = false;
+            result = true;
         }
         return result;
     }
@@ -53,18 +53,18 @@ public class GUIVerifier {
      * @return True if the JTextField is not a positive number, False otherwise.
      */
     public static boolean isTextFieldNotPositiveNumeric(JTextField textField, String message) {
-        boolean result = true;
+        boolean result = false;
         try {
             int number = Integer.parseInt(textField.getText());
             if (number < 0) {
                 showMessage(message);
                 textField.requestFocus();
-                result = false;
+                result = true;
             }
         } catch (NumberFormatException e) {
             showMessage(message);
             textField.requestFocus();
-            result = false;
+            result = true;
         }
         return result;
     }
