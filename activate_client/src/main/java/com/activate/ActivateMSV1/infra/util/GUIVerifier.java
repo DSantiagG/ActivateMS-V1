@@ -77,7 +77,7 @@ public class GUIVerifier {
      */
     public static boolean isComboBoxNotSelected(@SuppressWarnings("rawtypes") JComboBox comboBox, String message) {
         boolean result = false;
-        if (comboBox.getSelectedIndex() == 0) {
+        if (comboBox.getItemCount() == 0 || comboBox.getSelectedIndex() == 0) {
             showMessage(message);
             comboBox.requestFocus();
             result = true;

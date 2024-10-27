@@ -25,7 +25,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="b111b" class="javax.swing.JLabel">
+              <component id="b111b" class="javax.swing.JLabel" binding="ACTIVATELabel">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="11" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -34,32 +34,34 @@
                   <text value="ACTIVATE"/>
                 </properties>
               </component>
-              <component id="64d15" class="javax.swing.JLabel">
+              <component id="64d15" class="javax.swing.JLabel" binding="lblRecommendedEvents">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Eventos recomendados"/>
                 </properties>
               </component>
-              <component id="49629" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+              <component id="49629" class="javax.swing.JTextArea" binding="txaRecommendedEvents">
                 <constraints>
                   <grid row="4" column="1" row-span="6" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="300" height="400"/>
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <text value=""/>
+                </properties>
               </component>
-              <component id="333eb" class="javax.swing.JLabel">
+              <component id="333eb" class="javax.swing.JLabel" binding="lblJoinEvent">
                 <constraints>
                   <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Participar en un evento"/>
                 </properties>
               </component>
-              <component id="98816" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+              <component id="98816" class="javax.swing.JComboBox" binding="cbxRecommendedEvents">
                 <constraints>
                   <grid row="4" column="4" row-span="2" col-span="2" vsize-policy="0" hsize-policy="2" anchor="9" fill="1" indent="0" use-parent-layout="false">
                     <minimum-size width="300" height="-1"/>
@@ -74,15 +76,15 @@
                   </grid>
                 </constraints>
               </hspacer>
-              <component id="ee743" class="javax.swing.JLabel">
+              <component id="ee743" class="javax.swing.JLabel" binding="lblNotifications">
                 <constraints>
                   <grid row="3" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Notificaciones"/>
                 </properties>
               </component>
-              <component id="d929e" class="javax.swing.JTextArea" binding="textArea2" default-binding="true">
+              <component id="d929e" class="javax.swing.JTextArea" binding="txaEventsNotification">
                 <constraints>
                   <grid row="4" column="8" row-span="6" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="300" height="400"/>
@@ -126,22 +128,22 @@
                   </grid>
                 </constraints>
               </vspacer>
-              <component id="5c7c9" class="javax.swing.JButton" default-binding="true">
+              <component id="5c7c9" class="javax.swing.JButton" binding="btnReloadRecommendedEvents">
                 <constraints>
                   <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
                     <minimum-size width="50" height="-1"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Recargar"/>
                 </properties>
               </component>
-              <component id="36afc" class="javax.swing.JButton" binding="button3" default-binding="true">
+              <component id="36afc" class="javax.swing.JButton" binding="btnCleanNotifications">
                 <constraints>
                   <grid row="10" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Limpiar"/>
                 </properties>
               </component>
               <vspacer id="e6f37">
@@ -151,12 +153,12 @@
                   </grid>
                 </constraints>
               </vspacer>
-              <component id="c5a75" class="javax.swing.JButton" binding="button2" default-binding="true">
+              <component id="c5a75" class="javax.swing.JButton" binding="btnJoinEvent">
                 <constraints>
                   <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Participar"/>
                 </properties>
               </component>
             </children>
@@ -185,15 +187,15 @@
                   </grid>
                 </constraints>
               </vspacer>
-              <component id="109f3" class="javax.swing.JLabel">
+              <component id="109f3" class="javax.swing.JLabel" binding="lblMyEvents">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Mis eventos"/>
                 </properties>
               </component>
-              <component id="47cd3" class="javax.swing.JTextArea" default-binding="true">
+              <component id="47cd3" class="javax.swing.JTextArea" binding="txaMyEvents">
                 <constraints>
                   <grid row="4" column="1" row-span="5" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="300" height="400"/>
@@ -209,14 +211,14 @@
                   </grid>
                 </constraints>
               </hspacer>
-              <component id="3163c" class="javax.swing.JButton" default-binding="true">
+              <component id="3163c" class="javax.swing.JButton" binding="btnReloadMyEvents">
                 <constraints>
                   <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false">
                     <minimum-size width="50" height="-1"/>
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Recargar"/>
                 </properties>
               </component>
               <hspacer id="974a2">
@@ -226,59 +228,59 @@
                   </grid>
                 </constraints>
               </hspacer>
-              <component id="5fa5b" class="javax.swing.JLabel">
+              <component id="5fa5b" class="javax.swing.JLabel" binding="lblManageMyEvents">
                 <constraints>
                   <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Gestionar mis eventos"/>
                 </properties>
               </component>
-              <component id="3d2d2" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+              <component id="3d2d2" class="javax.swing.JComboBox" binding="cbxMyEvents">
                 <constraints>
                   <grid row="4" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="e1791" class="javax.swing.JLabel">
+              <component id="e1791" class="javax.swing.JLabel" binding="lblEventEvaluation">
                 <constraints>
                   <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Calificar evento"/>
                 </properties>
               </component>
-              <component id="38c33" class="javax.swing.JLabel">
+              <component id="38c33" class="javax.swing.JLabel" binding="lblEvaluation">
                 <constraints>
-                  <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Calificación:"/>
                 </properties>
               </component>
-              <component id="b5d4d" class="javax.swing.JComboBox" binding="comboBox3" default-binding="true">
+              <component id="b5d4d" class="javax.swing.JComboBox" binding="cbxCalification">
                 <constraints>
                   <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="9e6bc" class="javax.swing.JLabel">
+              <component id="9e6bc" class="javax.swing.JLabel" binding="lblComment">
                 <constraints>
-                  <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Comentario:"/>
                 </properties>
               </component>
-              <component id="90be5" class="javax.swing.JButton" binding="button1" default-binding="true">
+              <component id="90be5" class="javax.swing.JButton" binding="btnQuitEvent">
                 <constraints>
                   <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Abandonar evento"/>
                 </properties>
               </component>
-              <component id="a82b4" class="javax.swing.JTextArea" binding="textArea3" default-binding="true">
+              <component id="a82b4" class="javax.swing.JTextArea" binding="txaComment">
                 <constraints>
                   <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
@@ -286,12 +288,12 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="c0e35" class="javax.swing.JButton" binding="button4" default-binding="true">
+              <component id="c0e35" class="javax.swing.JButton" binding="btnSendEvaluation">
                 <constraints>
                   <grid row="9" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Button"/>
+                  <text value="Enviar calificación"/>
                 </properties>
               </component>
               <vspacer id="a09d0">

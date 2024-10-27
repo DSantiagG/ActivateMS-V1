@@ -1,16 +1,14 @@
 package com.activate.ActivateMSV1.presentation;
 
-import com.activate.ActivateMSV1.infra.DTO.InterestDTO;
-import com.activate.ActivateMSV1.infra.DTO.InterestRequestDTO;
-import com.activate.ActivateMSV1.infra.DTO.LocationDTO;
-import com.activate.ActivateMSV1.infra.DTO.UserDTO;
+import com.activate.ActivateMSV1.infra.DTO.*;
+import com.activate.ActivateMSV1.infra.util.GUIVerifier;
+import com.activate.ActivateMSV1.service.EventService;
+import com.activate.ActivateMSV1.service.NotificationConsumer;
+import com.activate.ActivateMSV1.service.RecommendationService;
 import com.activate.ActivateMSV1.service.UserService;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,16 +21,16 @@ public class ParticipantView {
     private JPanel pnlEvents;
     private JPanel pnlParticipanEvents;
     private JPanel pnlParticipantInfo;
-    private JTextArea textArea1;
-    private JComboBox comboBox1;
-    private JButton button2;
-    private JTextArea textArea2;
-    private JButton button3;
-    private JComboBox comboBox2;
-    private JButton button1;
-    private JComboBox comboBox3;
-    private JTextArea textArea3;
-    private JButton button4;
+    private JTextArea txaRecommendedEvents;
+    private JComboBox cbxRecommendedEvents;
+    private JButton btnJoinEvent;
+    private JTextArea txaEventsNotification;
+    private JButton btnCleanNotifications;
+    private JComboBox cbxMyEvents;
+    private JButton btnQuitEvent;
+    private JComboBox cbxCalification;
+    private JTextArea txaComment;
+    private JButton btnSendEvaluation;
     private JTextField txtName;
     private JButton btnEditProfile;
     private JButton btnUpdateLocation;
@@ -45,6 +43,22 @@ public class ParticipantView {
     private JTextField txtEmail;
     private JTextField txtLatitude;
     private JTextField txtLongitude;
+    private JLabel lblRecommendedEvents;
+    private JButton btnReloadRecommendedEvents;
+    private JLabel lblJoinEvent;
+    private JLabel lblNotifications;
+    private JLabel ACTIVATELabel;
+    private JLabel lblMyEvents;
+    private JTextArea txaMyEvents;
+    private JButton btnReloadMyEvents;
+    private JLabel lblManageMyEvents;
+    private JLabel lblEventEvaluation;
+    private JLabel lblEvaluation;
+    private JLabel lblComment;
+
+    private ArrayList<EventInfoDTO> recommendedEvents;
+    private ArrayList<EventInfoDTO> myEvents;
+    NotificationConsumer notificationConsumer;
 
     private JFrame loginFrame;
     private JFrame frame;
@@ -62,6 +76,9 @@ public class ParticipantView {
         frame.pack();
         frame.setLocationRelativeTo(null);
         initMyInfo();
+        initEventPanel();
+        initMyEventsPanel();
+
         btnEditProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -86,6 +103,42 @@ public class ParticipantView {
                 removeInterest();
             }
         });
+        btnReloadRecommendedEvents.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadRecommendedEvents();
+            }
+        });
+        btnJoinEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                participate();
+            }
+        });
+        btnCleanNotifications.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                txaEventsNotification.setText("");
+            }
+        });
+        btnReloadMyEvents.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadMyEvents();
+            }
+        });
+        btnQuitEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quitEvent();
+            }
+        });
+        btnSendEvaluation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendEvaluation();
+            }
+        });
     }
 
     public void show() {
@@ -98,6 +151,124 @@ public class ParticipantView {
         });
     }
 
+    private void initEventPanel(){
+        reloadRecommendedEvents();
+        notificationConsumer = new NotificationConsumer(user.getId());
+        notificationConsumer.setTxaNotifications(txaEventsNotification);
+    }
+
+    private void initMyEventsPanel(){
+        reloadMyEvents();
+        cbxCalification.addItem("Seleccione una calificación");
+        cbxCalification.addItem("1");
+        cbxCalification.addItem("2");
+        cbxCalification.addItem("3");
+        cbxCalification.addItem("4");
+        cbxCalification.addItem("5");
+    }
+
+    private void reloadRecommendedEvents(){
+        try{
+            recommendedEvents = RecommendationService.getRecommendedEvents(user.getId());
+        }catch (Exception e){
+            GUIVerifier.showMessage(e.getMessage());
+            cbxRecommendedEvents.removeAllItems();
+            cbxRecommendedEvents.addItem("Seleccione un evento");
+            txaRecommendedEvents.setText("");
+            return;
+        }
+
+        String recommendedEventsString = "";
+        cbxRecommendedEvents.removeAllItems();
+        cbxRecommendedEvents.addItem("Seleccione un evento");
+
+        for(EventInfoDTO event : recommendedEvents){
+            recommendedEventsString += "El evento "+ event.getName()+" \nse realizará en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el \n" + event.getDate() + ".\n\n";
+            cbxRecommendedEvents.addItem(event.getName());
+        }
+
+        txaRecommendedEvents.setText("");
+        txaRecommendedEvents.setText(recommendedEventsString);
+    }
+
+    private void participate(){
+        if(GUIVerifier.isComboBoxNotSelected(cbxRecommendedEvents,"Seleccione un evento")) return;
+        int index = cbxRecommendedEvents.getSelectedIndex();
+        EventInfoDTO event = recommendedEvents.get(index-1);
+        try {
+            EventService.participate(user.getId(), event.getId());
+            GUIVerifier.showMessage("Te has inscrito al evento "+ event.getName() + "\n");
+            cbxMyEvents.setSelectedIndex(0);
+        } catch (Exception e) {
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void quitEvent(){
+        if(GUIVerifier.isComboBoxNotSelected(cbxMyEvents,"Seleccione un evento")) return;
+        int index = cbxMyEvents.getSelectedIndex();
+        EventInfoDTO event = myEvents.get(index-1);
+        try {
+            EventService.quitEvent(user.getId(), event.getId());
+            GUIVerifier.showMessage("Te has desinscrito del evento "+ event.getName() + "\n");
+            cbxMyEvents.setSelectedIndex(0);
+        } catch (Exception e) {
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void sendEvaluation(){
+        if(GUIVerifier.isComboBoxNotSelected(cbxMyEvents,"Seleccione un evento")) return;
+        if(GUIVerifier.isComboBoxNotSelected(cbxCalification,"Seleccione una calificación")) return;
+        if(txaComment.getText().isEmpty()){
+            GUIVerifier.showMessage("Ingrese un comentario");
+            return;
+        }
+
+        int index = cbxMyEvents.getSelectedIndex();
+        EventInfoDTO event = myEvents.get(index-1);
+        try {
+            EventService.sendEvaluation(user.getId(), event.getId(), txaComment.getText(), Integer.parseInt(cbxCalification.getSelectedItem().toString()));
+            GUIVerifier.showMessage("Evaluación enviada");
+            txaComment.setText("");
+            cbxCalification.setSelectedIndex(0);
+            cbxMyEvents.setSelectedIndex(0);
+        } catch (Exception e) {
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void reloadMyEvents(){
+        try {
+            myEvents = EventService.getParticipantEvents(user.getId());
+        } catch (Exception e) {
+            GUIVerifier.showMessage(e.getMessage());
+            cbxMyEvents.removeAllItems();
+            cbxMyEvents.addItem("Seleccione un evento");
+            txaMyEvents.setText("");
+            return;
+        }
+
+        String nextEvents = "";
+        String finishedEvents = "";
+
+        cbxMyEvents.removeAllItems();
+        cbxMyEvents.addItem("Seleccione un evento");
+
+        for(EventInfoDTO event : myEvents){
+            if(event.getState() == StateDTO.FINISHED){
+                nextEvents += "El evento "+ event.getName()+" \nse realizará en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el \n" + event.getDate() + ".\n\n";
+            }else{
+                finishedEvents += "El evento "+ event.getName()+" \nse realizó en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el \n" + event.getDate() + ".\n\n";
+            }
+            cbxMyEvents.addItem(event.getName());
+        }
+
+        txaMyEvents.setText("");
+        txaMyEvents.setText(nextEvents);
+        txaMyEvents.setText(finishedEvents);
+    }
+
     private void fillParticipantInfo(){
         txtName.setText(user.getName());
         txtAge.setText(String.valueOf(user.getAge()));
@@ -107,12 +278,10 @@ public class ParticipantView {
         String interestsString = "";
         for (InterestDTO interest : user.getInterests()) {
             interestsString += interest.toString() + "\n";
-            System.out.println("Entra");
         }
         txaInterests.setText(interestsString);
 
     }
-
     private void initCBInterests(){
         DefaultComboBoxModel<String> interestModel = new DefaultComboBoxModel<>();
         interestModel.addElement("Seleccione una opción");
@@ -184,7 +353,7 @@ public class ParticipantView {
     }
 
     private void addInterest(){
-        if(isComboBoxNotSelected(cbInterests,"Seleccione un interés"))return;
+        if(GUIVerifier.isComboBoxNotSelected(cbInterests,"Seleccione un interés"))return;
         String interest = cbInterests.getSelectedItem().toString();
         InterestDTO interestDTO = interestMap.get(interest);
         InterestRequestDTO request = new InterestRequestDTO();
@@ -200,7 +369,7 @@ public class ParticipantView {
     }
 
     private void removeInterest(){
-        if(isComboBoxNotSelected(cbInterests,"Seleccione un interés"))return;
+        if(GUIVerifier.isComboBoxNotSelected(cbInterests,"Seleccione un interés"))return;
         String interest = cbInterests.getSelectedItem().toString();
         InterestDTO interestDTO = interestMap.get(interest);
         InterestRequestDTO request = new InterestRequestDTO();

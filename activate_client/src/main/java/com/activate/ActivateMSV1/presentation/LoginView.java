@@ -60,7 +60,6 @@ public class LoginView {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //TODO: Poner metodo que verifique si el usuario es participante, etc, etc
                 if(isTextFieldNotPositiveNumeric(txtIdLogin, "El id debe ser numerico"))return;
                 Long idUser = Long.parseLong(txtIdLogin.getText());
                 UserDTO user=null;
@@ -80,12 +79,10 @@ public class LoginView {
         btnLoginAsOrganizator.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //TODO: Poner metodo que verifique si el usuario es participante, etc, etc
                 if(isTextFieldNotPositiveNumeric(txtIdLogin, "El id debe ser numerico"))return;
 
                 Long idUser = Long.parseLong(txtIdLogin.getText());
-                OrganizatorView organizatorViewView = new OrganizatorView(frame, idUser);   //TODO: Cambiar el 1L por el id del organizador
+                OrganizatorView organizatorViewView = new OrganizatorView(frame, idUser);
                 organizatorViewView.show();
                 frame.setVisible(false);
             }

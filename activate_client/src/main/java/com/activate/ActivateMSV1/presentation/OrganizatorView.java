@@ -159,7 +159,7 @@ public class OrganizatorView {
         String description = tfDescription.getText();
         int maxCapacity = Integer.parseInt(tfMaxCapacity.getText());
         int duration = Integer.parseInt(tfDuration.getText());
-        LocalDateTime date = LocalDateTime.parse(tfDate.getText());
+        //LocalDateTime date = LocalDateTime.parse(tfDate.getText());
         double latitude = Double.parseDouble(tfLatitude.getText());
         double longitude = Double.parseDouble(tfLongitude.getText());
 
@@ -176,7 +176,7 @@ public class OrganizatorView {
                 duration,
                 name,
                 description,
-                date,
+                LocalDateTime.now().plusDays(1),
                 location,
                 StateDTO.OPEN,
                 type,
