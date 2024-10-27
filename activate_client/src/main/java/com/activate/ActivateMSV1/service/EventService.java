@@ -61,7 +61,7 @@ public class EventService {
         HttpResponse response = httpClient.execute(getRequest);
         int statusCode = response.getStatusLine().getStatusCode();
 
-        httpClient.close();
+
 
         if (statusCode == 200) {
             String jsonResponse = EntityUtils.toString(response.getEntity());

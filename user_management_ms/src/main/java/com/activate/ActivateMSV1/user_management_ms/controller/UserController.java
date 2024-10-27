@@ -30,8 +30,10 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody UserDTO userDTO) {
         try {
             userService.createUser(userDTO.getName(), userDTO.getAge(), userDTO.getEmail(), userDTO.getInterests(), userDTO.getLocation());
+            System.out.println("Usuario creado exitosamente");
             return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -49,8 +51,10 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         try {
             UserDTO user = userService.getUserById(id);
+            System.out.println("Usuario"+id +" encontrado");
             return ResponseEntity.ok(user);
         } catch (Exception e) {
+            System.out.println("Usuario"+id +" NO encontrado");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -67,8 +71,10 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         try {
             List<UserDTO> users = userService.getUsers();
+            System.out.println("Usuarios encontrados");
             return ResponseEntity.ok(users);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
@@ -88,8 +94,10 @@ public class UserController {
     public ResponseEntity<String> editProfile(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         try {
             userService.editProfile(id, userDTO.getName(), userDTO.getAge(), userDTO.getEmail());
+            System.out.println("Perfil actualiado exitosamente");
             return ResponseEntity.ok("Perfil actualizado exitosamente");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -104,12 +112,14 @@ public class UserController {
      * @param interestDTO The interest to be added.
      * @return `200 OK` if successful, or `400 Bad Request` on error.
      */
-    @PutMapping("/{id}/interests")
+    @PutMapping("/{id}/interests/add")
     public ResponseEntity<String> addInterest(@PathVariable Long id, @RequestBody InterestRequestDTO interestDTO) {
         try {
             userService.addInterest(id, interestDTO.getInterest());
+            System.out.printf("Interés agregado exitosamente");
             return ResponseEntity.ok("Interés agregado exitosamente");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -124,12 +134,14 @@ public class UserController {
      * @param interestDTO The interest to be removed.
      * @return `200 OK` if successful, or `400 Bad Request` on error.
      */
-    @DeleteMapping("/{id}/interests")
+    @PutMapping("/{id}/interests/remove")
     public ResponseEntity<String> deleteInterest(@PathVariable Long id, @RequestBody InterestRequestDTO interestDTO) {
         try {
             userService.deleteInterest(id, interestDTO.getInterest());
+            System.out.printf("Interés eliminado exitosamente");
             return ResponseEntity.ok("Interés eliminado exitosamente");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -149,8 +161,10 @@ public class UserController {
     public ResponseEntity<String> updateLocation(@PathVariable Long id, @RequestBody LocationDTO locationDTO) {
         try {
             userService.udpateLocation(id, locationDTO);
+            System.out.printf("Ubicación actualizada");
             return ResponseEntity.ok("Ubicación actualizada");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

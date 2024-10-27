@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="30131" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="30131" class="javax.swing.JTextField" binding="txtIdLogin">
         <constraints>
           <grid row="4" column="2" row-span="2" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -21,10 +21,10 @@
           <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Nombre"/>
         </properties>
       </component>
-      <component id="58766" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="58766" class="javax.swing.JTextField" binding="txtName">
         <constraints>
           <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -37,10 +37,10 @@
           <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Edad"/>
         </properties>
       </component>
-      <component id="c76a3" class="javax.swing.JTextField" default-binding="true">
+      <component id="c76a3" class="javax.swing.JTextField" binding="txtAge">
         <constraints>
           <grid row="4" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -53,10 +53,10 @@
           <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Correo"/>
         </properties>
       </component>
-      <component id="770d6" class="javax.swing.JTextField" default-binding="true">
+      <component id="770d6" class="javax.swing.JTextField" binding="txtEmail">
         <constraints>
           <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -69,10 +69,10 @@
           <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Latitud"/>
         </properties>
       </component>
-      <component id="d0f0a" class="javax.swing.JTextField" default-binding="true">
+      <component id="d0f0a" class="javax.swing.JTextField" binding="txtLatitude">
         <constraints>
           <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -85,10 +85,10 @@
           <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Longitud"/>
         </properties>
       </component>
-      <component id="2e29e" class="javax.swing.JTextField" default-binding="true">
+      <component id="2e29e" class="javax.swing.JTextField" binding="txtLongitude">
         <constraints>
           <grid row="7" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -101,10 +101,10 @@
           <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Intereses"/>
         </properties>
       </component>
-      <component id="be4e6" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="be4e6" class="javax.swing.JComboBox" binding="cbInterests">
         <constraints>
           <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -119,12 +119,12 @@
           <text value="ACTIVATE"/>
         </properties>
       </component>
-      <component id="b7fa4" class="javax.swing.JButton" binding="button2" default-binding="true">
+      <component id="b7fa4" class="javax.swing.JButton" binding="agregarButton" default-binding="true">
         <constraints>
           <grid row="8" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Agregar"/>
         </properties>
       </component>
       <component id="d2f58" class="javax.swing.JLabel">
@@ -132,23 +132,23 @@
           <grid row="9" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Intereses agregados"/>
         </properties>
       </component>
-      <component id="f7cdc" class="javax.swing.JLabel">
+      <component id="f7cdc" class="javax.swing.JLabel" binding="lblInterests">
         <constraints>
           <grid row="9" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value=""/>
         </properties>
       </component>
-      <component id="25086" class="javax.swing.JButton" binding="button3" default-binding="true">
+      <component id="25086" class="javax.swing.JButton" binding="btnRegisterUser">
         <constraints>
           <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Registrar usuario"/>
         </properties>
       </component>
       <hspacer id="26581">
@@ -166,13 +166,6 @@
           </grid>
         </constraints>
       </hspacer>
-      <vspacer id="a5e78">
-        <constraints>
-          <grid row="11" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
-            <minimum-size width="-1" height="70"/>
-          </grid>
-        </constraints>
-      </vspacer>
       <vspacer id="e82e7">
         <constraints>
           <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
@@ -210,6 +203,19 @@
           <text value="Organizador"/>
         </properties>
       </component>
+      <component id="2cd30" class="javax.swing.JLabel" binding="lblStatus">
+        <constraints>
+          <grid row="11" column="6" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="...."/>
+        </properties>
+      </component>
+      <vspacer id="3facd">
+        <constraints>
+          <grid row="11" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
     </children>
   </grid>
 </form>
