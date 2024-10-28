@@ -14,6 +14,9 @@ public class NotificationConsumerService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private DynamicQueueService dynamicQueueService;
+
     @RabbitListener(queues = RabbitMQConfig.NOTIFICATION_QUEUE)
     public void consumeNotification(NotificationDTO notification) {
         try {
@@ -23,7 +26,9 @@ public class NotificationConsumerService {
                 throw new DomainException("UserId o Title no pueden ser nulos");
             }
 
-            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY_USER_NOTI, notification);
+            dynamicQueueService.createQueueForClient(notification.getUserId());
+            dynamicQueueService.sendMessageToClient(notification.getUserId(), notification);
+
             System.out.println("Notificación enviada a userNotiQueue: " + notification);
         } catch (Exception e) {
 
