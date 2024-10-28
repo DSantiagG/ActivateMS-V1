@@ -155,6 +155,11 @@ public class ParticipantView {
         reloadRecommendedEvents();
         notificationConsumer = new NotificationConsumer(user.getId());
         notificationConsumer.setTxaNotifications(txaEventsNotification);
+        try {
+            notificationConsumer.connectWithServer();
+        } catch (Exception e) {
+            GUIVerifier.showMessage(e.getMessage());
+        }
     }
 
     private void initMyEventsPanel(){
@@ -183,7 +188,7 @@ public class ParticipantView {
         cbxRecommendedEvents.addItem("Seleccione un evento");
 
         for(EventInfoDTO event : recommendedEvents){
-            recommendedEventsString += "El evento "+ event.getName()+" \nse realizará en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el \n" + event.getDate() + ".\n\n";
+            recommendedEventsString += "El evento "+ event.getName()+" se realizará en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el " + event.getDate() + ".\n\n";
             cbxRecommendedEvents.addItem(event.getName());
         }
 
@@ -257,9 +262,9 @@ public class ParticipantView {
 
         for(EventInfoDTO event : myEvents){
             if(event.getState() == StateDTO.FINISHED){
-                nextEvents += "El evento "+ event.getName()+" \nse realizará en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el \n" + event.getDate() + ".\n\n";
+                nextEvents += "El evento "+ event.getName()+" se realizó en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el " + event.getDate() + ".\n\n";
             }else{
-                finishedEvents += "El evento "+ event.getName()+" \nse realizó en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el \n" + event.getDate() + ".\n\n";
+                finishedEvents += "El evento "+ event.getName()+" se realizará en ("+ event.getLocation().getLongitude() + " " + event.getLocation().getLatitude() +") el " + event.getDate() + ".\n\n";
             }
             cbxMyEvents.addItem(event.getName());
         }

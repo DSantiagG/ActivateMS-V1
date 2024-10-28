@@ -50,7 +50,10 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
                   <text value=""/>
+                  <wrapStyleWord value="true"/>
                 </properties>
               </component>
               <component id="333eb" class="javax.swing.JLabel" binding="lblJoinEvent">
@@ -91,7 +94,11 @@
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
+                  <wrapStyleWord value="true"/>
+                </properties>
               </component>
               <hspacer id="e2680">
                 <constraints>
@@ -202,7 +209,11 @@
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
+                  <wrapStyleWord value="true"/>
+                </properties>
               </component>
               <hspacer id="2abc8">
                 <constraints>
@@ -286,7 +297,10 @@
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <lineWrap value="true"/>
+                  <wrapStyleWord value="true"/>
+                </properties>
               </component>
               <component id="c0e35" class="javax.swing.JButton" binding="btnSendEvaluation">
                 <constraints>
