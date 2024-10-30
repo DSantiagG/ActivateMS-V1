@@ -43,8 +43,6 @@ public class EventService {
 
             int statusCode = response.getStatusLine().getStatusCode();
 
-
-
             if (statusCode == 201) {
                 httpClient.close();
                 return true;
@@ -55,7 +53,7 @@ public class EventService {
                 throw new Exception(errorResponse.getMessage());
             }
     }
-    public static EventDTO getEvento(Long eventId) throws Exception {
+    public static EventDTO getEvent(Long eventId) throws Exception {
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String url = apiUrl + "/" + eventId;
@@ -71,6 +69,160 @@ public class EventService {
             EventDTO event = mapper.readValue(jsonResponse, EventDTO.class);
             httpClient.close();
             return event;
+        } else {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);
+            httpClient.close();
+            throw new Exception(errorResponse.getMessage());
+        }
+    }
+
+    public static ArrayList<EventDTO> getEventsByOrganizer(Long organizerId) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet getRequest = new HttpGet(apiUrl);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(getRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 200) {
+            String jsonResponse = EntityUtils.toString(response.getEntity());
+            ArrayList<EventDTO> events = mapper.readValue(jsonResponse, new TypeReference<ArrayList<EventDTO>>() {});
+
+            //Filtrar por id del organizador
+            ArrayList<EventDTO> eventsByOrganizer = new ArrayList<>();
+            for (EventDTO event : events) {
+                if (event.getOrganizer().getId().equals(organizerId)) {
+                    eventsByOrganizer.add(event);
+                }
+            }
+            httpClient.close();
+            return eventsByOrganizer;
+        } else {
+            System.out.println("No events found");
+            return new ArrayList<>();
+        }
+    }
+
+    public static boolean cancelEvent(Long organizerId, Long eventId) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url = apiUrl + "/organizer/" + organizerId + "/cancel/" + eventId;
+        HttpPut putRequest = new HttpPut(url);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(putRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 204) {
+            httpClient.close();
+            return true;
+        } else {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);
+            httpClient.close();
+            throw new Exception(errorResponse.getMessage());
+        }
+    }
+
+    public static boolean updateEventType(Long eventId) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url = apiUrl + "/" + eventId + "/type";
+        HttpPut putRequest = new HttpPut(url);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(putRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 204) {
+            httpClient.close();
+            return true;
+        } else {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);
+            httpClient.close();
+            throw new Exception(errorResponse.getMessage());
+        }
+    }
+
+    public static boolean updateMaxCapacity(Long eventId, int maxCapacity) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url = apiUrl + "/" + eventId + "/maxCapacity?maxCapacity=" + maxCapacity;
+        HttpPut putRequest = new HttpPut(url);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(putRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 204) {
+            httpClient.close();
+            return true;
+        } else {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);
+            httpClient.close();
+            throw new Exception(errorResponse.getMessage());
+        }
+    }
+
+    public static boolean  updateDate(Long eventId, LocalDateTime date) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url = apiUrl + "/" + eventId + "/date?date=" + date;
+        HttpPut putRequest = new HttpPut(url);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(putRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 204) {
+            httpClient.close();
+            return true;
+        } else {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);
+            httpClient.close();
+            throw new Exception(errorResponse.getMessage());
+        }
+    }
+
+    public static boolean startEvent (Long eventId) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url = apiUrl + "/" + eventId + "/start";
+        HttpPut putRequest = new HttpPut(url);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(putRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 204) {
+            httpClient.close();
+            return true;
+        } else {
+            String responseBody = EntityUtils.toString(response.getEntity());
+            ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);
+            httpClient.close();
+            throw new Exception(errorResponse.getMessage());
+        }
+    }
+
+    public static boolean finishEvent (Long eventId) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String url = apiUrl + "/" + eventId + "/finish";
+        HttpPut putRequest = new HttpPut(url);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        HttpResponse response = httpClient.execute(putRequest);
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        if (statusCode == 204) {
+            httpClient.close();
+            return true;
         } else {
             String responseBody = EntityUtils.toString(response.getEntity());
             ErrorResponse errorResponse = mapper.readValue(responseBody, ErrorResponse.class);

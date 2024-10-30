@@ -4,7 +4,7 @@ public enum Interest {
     VIDEOGAMES,
     POLITICS,
     GASTRONOMY,
-    SPORT,
+    SPORTS,
     TECHNOLOGY,
     MUSIC,
     CINEMA,

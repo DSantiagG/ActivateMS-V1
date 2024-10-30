@@ -71,6 +71,8 @@ public class Event {
     public void cancel() {
         if(this.state.equals(State.FINISHED))
             throw new DomainException("Cannot cancel an event that has already finished");
+        if(this.state.equals(State.CANCELED))
+            throw new DomainException("Cannot cancel an event that has already been canceled");
         this.state = State.CANCELED;
     }
     public void close() {

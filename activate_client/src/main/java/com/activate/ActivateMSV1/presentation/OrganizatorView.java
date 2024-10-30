@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class OrganizatorView {
 
@@ -18,13 +20,13 @@ public class OrganizatorView {
     private JComboBox cbxEvent;
     private JTextField tfName;
     private JButton btnCreateEvent;
-    private JButton button2;
-    private JButton button3;
+    private JButton btnCancelEvent;
+    private JButton btnUpdateEvent;
     private JButton btnAddInterest;
-    private JButton button5;
-    private JTextArea textArea1;
-    private JButton button6;
-    private JButton button7;
+    private JButton btnSelectEvent;
+    private JTextArea txaParticipants;
+    private JButton btnStartEvent;
+    private JButton btnFinishEvent;
     private JLabel lbSelEvent;
     private JLabel lbName;
     private JLabel lbDescription;
@@ -45,6 +47,13 @@ public class OrganizatorView {
     private JTextField tfLatitude;
     private JTextField tfLongitude;
     private JComboBox cbxInterests;
+    private JLabel lbOrganizerName;
+    private JLabel lbState;
+    private JTextField tfState;
+    private JLabel tfParticipants;
+    private JLabel lbEvaluations;
+    private JTextArea txaEvaluations;
+    private JButton btnCancelUpdate;
 
     private JFrame loginFrame;
     private JFrame frame;
@@ -55,10 +64,19 @@ public class OrganizatorView {
 
     Long organizerId;
 
-    public OrganizatorView(JFrame loginFrame, Long organizerId) {
+    Long eventIdSelected;
+
+    Boolean editMode;
+    Boolean edditing;
+
+    public OrganizatorView(JFrame loginFrame, Long organizerId, String organizerName) {
 
         this.loginFrame = loginFrame;
         this.organizerId = organizerId;
+        this.lbOrganizerName.setText("Organizador: " + organizerName);
+        this.eventIdSelected = -1L;
+        this.editMode = false;
+        this.edditing = false;
 
         frame = new JFrame("Organizator");
         frame.setContentPane(OrganizatorPanel);
@@ -78,6 +96,12 @@ public class OrganizatorView {
         interestMap.put("Historia", InterestDTO.HISTORY);
         interestMap.put("Arte", InterestDTO.ART);
 
+        tfState.setEditable(false);
+        txaParticipants.setEditable(false);
+        txaEvaluations.setEditable(false);
+        btnCancelEvent.setVisible(false);
+
+
         initializeComponents();
         btnCreateEvent.addActionListener(new ActionListener() {
             @Override
@@ -90,6 +114,42 @@ public class OrganizatorView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addInterest();
+            }
+        });
+        btnSelectEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showEvent();
+            }
+        });
+        btnCancelEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cancelEvent();
+            }
+        });
+        btnStartEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startEvent();
+            }
+        });
+        btnFinishEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                finishEvent();
+            }
+        });
+        btnUpdateEvent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateEvent();
+            }
+        });
+        btnCancelUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cancelUpdate();
             }
         });
     }
@@ -106,8 +166,8 @@ public class OrganizatorView {
     private void initializeComponents(){
         DefaultComboBoxModel<String> typeModel = new DefaultComboBoxModel<>();
         typeModel.addElement("Seleccione una opción");
-        typeModel.addElement("Privado");
-        typeModel.addElement("Publico");
+        typeModel.addElement("PRIVATE");
+        typeModel.addElement("PUBLIC");
         cbxType.setModel(typeModel);
 
         DefaultComboBoxModel<String> interestModel = new DefaultComboBoxModel<>();
@@ -124,6 +184,23 @@ public class OrganizatorView {
         interestModel.addElement("Historia");
         interestModel.addElement("Arte");
         cbxInterests.setModel(interestModel);
+
+        initializeCbxEvent();
+    }
+
+    private void initializeCbxEvent(){
+        try{
+            ArrayList<EventDTO> events = EventService.getEventsByOrganizer(organizerId);
+            DefaultComboBoxModel<String> eventModel = new DefaultComboBoxModel<>();
+            eventModel.addElement("Seleccione un evento");
+            for(EventDTO event : events){
+                eventModel.addElement(event.getId());
+           }
+            cbxEvent.setModel(eventModel);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            GUIVerifier.showMessage(e.getMessage());
+        }
     }
 
     private void addInterest(){
@@ -159,7 +236,7 @@ public class OrganizatorView {
         String description = tfDescription.getText();
         int maxCapacity = Integer.parseInt(tfMaxCapacity.getText());
         int duration = Integer.parseInt(tfDuration.getText());
-        //LocalDateTime date = LocalDateTime.parse(tfDate.getText());
+        LocalDateTime date = LocalDateTime.parse(tfDate.getText());
         double latitude = Double.parseDouble(tfLatitude.getText());
         double longitude = Double.parseDouble(tfLongitude.getText());
 
@@ -176,7 +253,7 @@ public class OrganizatorView {
                 duration,
                 name,
                 description,
-                LocalDateTime.now().plusDays(1),
+                date,
                 location,
                 StateDTO.OPEN,
                 type,
@@ -185,9 +262,180 @@ public class OrganizatorView {
         );
 
         try{
-            boolean response = EventService.postEvent(event, 1L);
+            boolean response = EventService.postEvent(event, organizerId);
             if(response){
                 GUIVerifier.showMessage("Evento creado exitosamente");
+                eventIdSelected = -1L;
+                this.interests.clear();
+                lbInterEvent.setText("");
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        initializeCbxEvent();
+                    }
+                }, 6000);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void showEvent(){
+        if(GUIVerifier.isComboBoxNotSelected(cbxEvent, "Seleccione un evento")){
+            return;
+        }
+        Long selectedEvent = Long.parseLong(cbxEvent.getSelectedItem().toString());
+        try{
+            EventDTO event = EventService.getEvent(selectedEvent);
+            if(event != null){
+                eventIdSelected = selectedEvent;
+
+                tfName.setText(event.getName());
+                tfDescription.setText(event.getDescription());
+                tfMaxCapacity.setText(String.valueOf(event.getMaxCapacity()));
+                tfDuration.setText(String.valueOf(event.getDuration()));
+                tfDate.setText(event.getDate().toString());
+                cbxType.setSelectedItem(event.getType().toString());
+                tfLatitude.setText(String.valueOf(event.getLocation().getLatitude()));
+                tfLongitude.setText(String.valueOf(event.getLocation().getLongitude()));
+                lbInterEvent.setText(event.getInterests().toString());
+                tfState.setText(event.getState().toString());
+
+                StringBuilder participantsNames = new StringBuilder();
+                for (Participant participant : event.getParticipants()) {
+                    participantsNames.append(participant.getName()).append("\n");
+                }
+                txaParticipants.setText(participantsNames.toString());
+
+                StringBuilder evaluations = new StringBuilder();
+                for (EvaluationDTO evaluation : event.getEvaluations()) {
+                    evaluations.append("Autor: " + evaluation.getAuthor() + " Puntuación: " + evaluation.getScore() + " Comentario: " + evaluation.getComment()).append("\n");
+                }
+                txaEvaluations.setText(evaluations.toString());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void cancelEvent(){
+        if(eventIdSelected == -1L){
+            GUIVerifier.showMessage("Seleccione un evento");
+            return;
+        }
+        try{
+            boolean response = EventService.cancelEvent(organizerId, eventIdSelected);
+            if(response){
+                GUIVerifier.showMessage("Evento cancelado exitosamente");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void updateEvent (){
+        if(eventIdSelected == -1L){
+            GUIVerifier.showMessage("Seleccione un evento");
+            return;
+        }
+        if(!edditing){
+            edditing = true;
+            btnUpdateEvent.setText("Guardar");
+            btnCancelUpdate.setVisible(true);
+
+            tfName.setEditable(false);
+            tfDescription.setEditable(false);
+            tfDuration.setEditable(false);
+            tfLatitude.setEditable(false);
+            tfLongitude.setEditable(false);
+            cbxInterests.setEnabled(false);
+        }else{
+            EventDTO event;
+            try{
+                event = EventService.getEvent(eventIdSelected);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                return;
+            }
+            if(event.getMaxCapacity() != Integer.parseInt(tfMaxCapacity.getText())){
+                try{
+                    boolean response = EventService.updateMaxCapacity(eventIdSelected, Integer.parseInt(tfMaxCapacity.getText()));
+                    if(response){
+                        GUIVerifier.showMessage("Capacidad máxima actualizada exitosamente");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    GUIVerifier.showMessage(e.getMessage());
+                }
+            }
+            if(!event.getDate().equals(LocalDateTime.parse(tfDate.getText()))){
+                try{
+                    boolean response = EventService.updateDate(eventIdSelected, LocalDateTime.parse(tfDate.getText()));
+                    if(response){
+                        GUIVerifier.showMessage("Fecha actualizada exitosamente");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    GUIVerifier.showMessage(e.getMessage());
+                }
+            }
+            if(event.getType().toString() != cbxType.getSelectedItem()){
+                try{
+                    boolean response = EventService.updateEventType(eventIdSelected);
+                    if(response){
+                        GUIVerifier.showMessage("Tipo de evento actualizado exitosamente");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    GUIVerifier.showMessage(e.getMessage());
+                }
+            }
+            cancelUpdate();
+        }
+    }
+
+    private void cancelUpdate(){
+        tfName.setEditable(true);
+        tfDescription.setEditable(true);
+        tfDuration.setEditable(true);
+        tfLatitude.setEditable(true);
+        tfLongitude.setEditable(true);
+        cbxInterests.setEnabled(true);
+
+        edditing = false;
+        btnUpdateEvent.setText("<html>Editar<br>evento</html>");
+        btnCancelUpdate.setVisible(false);
+    }
+
+    private void startEvent(){
+        if(eventIdSelected == -1L){
+            GUIVerifier.showMessage("Seleccione un evento");
+            return;
+        }
+        try{
+            boolean response = EventService.startEvent(eventIdSelected);
+            if(response){
+                GUIVerifier.showMessage("Evento iniciado exitosamente");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            GUIVerifier.showMessage(e.getMessage());
+        }
+    }
+
+    private void finishEvent(){
+        if(eventIdSelected == -1L){
+            GUIVerifier.showMessage("Seleccione un evento");
+            return;
+        }
+        try{
+            boolean response = EventService.finishEvent(eventIdSelected);
+            if(response){
+                GUIVerifier.showMessage("Evento finalizado exitosamente");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

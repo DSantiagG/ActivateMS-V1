@@ -80,9 +80,19 @@ public class LoginView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(isTextFieldNotPositiveNumeric(txtIdLogin, "El id debe ser numerico"))return;
-
                 Long idUser = Long.parseLong(txtIdLogin.getText());
-                OrganizatorView organizatorViewView = new OrganizatorView(frame, idUser);
+                String userName = "";
+
+                UserDTO user=null;
+                try {
+                    user = UserService.getUser(idUser);
+                    userName = user.getName();
+                } catch (Exception ex) {
+                    lblStatus.setText("Usuario no encontrado");
+                    return;
+                }
+
+                OrganizatorView organizatorViewView = new OrganizatorView(frame, idUser, userName);
                 organizatorViewView.show();
                 frame.setVisible(false);
             }

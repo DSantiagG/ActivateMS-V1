@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="OrganizatorPanel" layout-manager="GridLayoutManager" row-count="17" column-count="11" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1143" height="710"/>
+      <xy x="20" y="20" width="1154" height="710"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -209,7 +209,7 @@
           <text value="Crear evento"/>
         </properties>
       </component>
-      <component id="8783" class="javax.swing.JTextField" default-binding="true">
+      <component id="8783" class="javax.swing.JTextField" binding="tfState">
         <constraints>
           <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -217,47 +217,49 @@
         </constraints>
         <properties/>
       </component>
-      <component id="bb7d6" class="javax.swing.JLabel">
+      <component id="bb7d6" class="javax.swing.JLabel" binding="lbState">
         <constraints>
           <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Estado"/>
         </properties>
       </component>
-      <component id="e6a46" class="javax.swing.JLabel">
+      <component id="e6a46" class="javax.swing.JLabel" binding="tfParticipants">
         <constraints>
           <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Participantes"/>
         </properties>
       </component>
-      <component id="c2f43" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
+      <component id="c2f43" class="javax.swing.JTextArea" binding="txaParticipants">
         <constraints>
           <grid row="6" column="7" row-span="3" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
-      <component id="b3942" class="javax.swing.JButton" binding="button6" default-binding="true">
+      <component id="b3942" class="javax.swing.JButton" binding="btnStartEvent">
         <constraints>
           <grid row="15" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="&lt;html&gt;Empezar&lt;br&gt;evento&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="f1ea0" class="javax.swing.JButton" binding="button7" default-binding="true">
+      <component id="f1ea0" class="javax.swing.JButton" binding="btnFinishEvent">
         <constraints>
           <grid row="15" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="&lt;html&gt;Finalizar&lt;br&gt;evento&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="41506" class="javax.swing.JTextArea" default-binding="true">
+      <component id="41506" class="javax.swing.JTextArea" binding="txaEvaluations">
         <constraints>
           <grid row="10" column="7" row-span="4" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="50"/>
@@ -265,20 +267,20 @@
         </constraints>
         <properties/>
       </component>
-      <component id="2d79c" class="javax.swing.JLabel">
+      <component id="2d79c" class="javax.swing.JLabel" binding="lbEvaluations">
         <constraints>
           <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value="Evaluaciones"/>
         </properties>
       </component>
-      <component id="e44f7" class="javax.swing.JLabel">
+      <component id="e44f7" class="javax.swing.JLabel" binding="lbOrganizerName">
         <constraints>
           <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Label"/>
+          <text value=""/>
         </properties>
       </component>
       <hspacer id="ddb10">
@@ -316,12 +318,12 @@
           </grid>
         </constraints>
       </vspacer>
-      <component id="b5393" class="javax.swing.JButton" binding="button5" default-binding="true">
+      <component id="b5393" class="javax.swing.JButton" binding="btnSelectEvent">
         <constraints>
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Seleccionar"/>
         </properties>
       </component>
       <component id="94b53" class="javax.swing.JButton" binding="btnAddInterest">
@@ -332,20 +334,20 @@
           <text value="Agregar"/>
         </properties>
       </component>
-      <component id="8fb8f" class="javax.swing.JButton" binding="button2" default-binding="true">
+      <component id="8fb8f" class="javax.swing.JButton" binding="btnCancelEvent">
         <constraints>
           <grid row="15" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="&lt;html&gt;Cancelar&lt;br&gt;evento&lt;/html&gt;"/>
         </properties>
       </component>
-      <component id="56bc" class="javax.swing.JButton" binding="button3" default-binding="true">
+      <component id="56bc" class="javax.swing.JButton" binding="btnUpdateEvent">
         <constraints>
           <grid row="15" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="&lt;html&gt;Editar&lt;br&gt;evento&lt;/html&gt;"/>
         </properties>
       </component>
       <hspacer id="4ca63">
@@ -355,6 +357,14 @@
           </grid>
         </constraints>
       </hspacer>
+      <component id="2f9df" class="javax.swing.JButton" binding="btnCancelUpdate">
+        <constraints>
+          <grid row="15" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="&lt;html&gt;Cancelar&lt;br&gt;Edición&lt;/html&gt;"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
