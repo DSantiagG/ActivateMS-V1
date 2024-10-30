@@ -12,5 +12,5 @@ public class NotificationDTO {
     private Long userId;
     private String title;
     private String description;
-    private LocalDateTime date;
+    private Date date;
 }

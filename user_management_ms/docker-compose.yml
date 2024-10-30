@@ -35,6 +35,6 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USERNAME}"]
-      interval: 30s
+      interval: 15s
       timeout: 10s
       retries: 5

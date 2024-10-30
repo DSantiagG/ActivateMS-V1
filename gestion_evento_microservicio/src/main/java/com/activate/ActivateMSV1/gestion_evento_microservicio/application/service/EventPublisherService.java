@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 public class EventPublisherService {
@@ -38,7 +39,7 @@ public class EventPublisherService {
      */
     public void publishNotifications(Event event, String title, String message) {
         for (Participant participant : event.getParticipants()) {
-            NotificationDTO notification = new NotificationDTO(participant.getUser().getId(), title,message, LocalDateTime.now());
+            NotificationDTO notification = new NotificationDTO(participant.getUser().getId(), title,message, new Date());
             rabbitTemplate.convertAndSend(RabbitMQConfig.NOTIFICATION_QUEUE, notification);
         }
     }

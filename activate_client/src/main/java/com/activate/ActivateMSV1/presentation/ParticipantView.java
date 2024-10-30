@@ -146,6 +146,7 @@ public class ParticipantView {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
+                notificationConsumer.closeConnection();
                 loginFrame.setVisible(true);
             }
         });
@@ -176,7 +177,6 @@ public class ParticipantView {
         try{
             recommendedEvents = RecommendationService.getRecommendedEvents(user.getId());
         }catch (Exception e){
-            GUIVerifier.showMessage(e.getMessage());
             cbxRecommendedEvents.removeAllItems();
             cbxRecommendedEvents.addItem("Seleccione un evento");
             txaRecommendedEvents.setText("");
@@ -247,7 +247,6 @@ public class ParticipantView {
         try {
             myEvents = EventService.getParticipantEvents(user.getId());
         } catch (Exception e) {
-            GUIVerifier.showMessage(e.getMessage());
             cbxMyEvents.removeAllItems();
             cbxMyEvents.addItem("Seleccione un evento");
             txaMyEvents.setText("");
@@ -270,8 +269,7 @@ public class ParticipantView {
         }
 
         txaMyEvents.setText("");
-        txaMyEvents.setText(nextEvents);
-        txaMyEvents.setText(finishedEvents);
+        txaMyEvents.setText(nextEvents + "\n\n" + finishedEvents);
     }
 
     private void fillParticipantInfo(){
